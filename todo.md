@@ -67,3 +67,17 @@
 - [x] Include age-specific intervention recommendations
 - [x] Add evidence levels and references for each intervention
 - [x] Organize interventions by category (physical, psychological, environmental)
+
+
+## Enhancement - Pharmacological Recommendations
+
+- [x] Add first-line analgesics (acetaminophen, ibuprofen) with weight-based dosing
+- [x] Add opioid medications (morphine, fentanyl, oxycodone) with indications
+- [x] Add topical anesthetics (EMLA, LMX, lidocaine) for procedural pain
+- [x] Add adjuvant medications (gabapentin, amitriptyline) for chronic/neuropathic pain
+- [x] Add intranasal options (fentanyl, ketamine) for acute pain
+- [x] Include WHO analgesic ladder adapted for pediatrics
+- [x] Add dosing guidance with weight-based calculations
+- [x] Include contraindications and safety warnings
+- [x] Add medication-specific precautions and monitoring requirements
+- [x] Organize by pain severity (mild, moderate, severe)

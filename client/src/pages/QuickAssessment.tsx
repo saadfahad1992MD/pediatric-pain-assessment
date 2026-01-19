@@ -8,12 +8,24 @@ import {
   INTERVENTIONS,
   getPainLevel, 
   getInterventionsByCategory,
-  getAgeCategory,
   type PainScaleType,
   type PainLevel,
   type InterventionCategory,
   type InterventionInfo
 } from "@shared/painScales";
+import {
+  NON_OPIOID_MEDICATIONS,
+  OPIOID_MEDICATIONS,
+  TOPICAL_MEDICATIONS,
+  ADJUVANT_MEDICATIONS,
+  INTRANASAL_MEDICATIONS,
+  REVERSAL_MEDICATIONS,
+  WHO_LADDER,
+  SIDE_EFFECT_MANAGEMENT,
+  type MedicationInfo,
+  type MedicationCategory,
+  getMedicationCategoryLabel
+} from "@shared/pharmacologicalInterventions";
 import { 
   Check, 
   Heart, 
@@ -29,7 +41,12 @@ import {
   ChevronUp,
   Lightbulb,
   AlertTriangle,
-  BookOpen
+  BookOpen,
+  Syringe,
+  Droplets,
+  Stethoscope,
+  ShieldAlert,
+  Activity
 } from "lucide-react";
 import { useMemo, useState } from "react";
 import { Link } from "wouter";
@@ -112,6 +129,17 @@ function getCategoryLabel(category: InterventionCategory): string {
     pharmacological_adjunct: 'Pharmacological Adjuncts',
   };
   return labels[category];
+}
+
+function getMedCategoryIcon(category: MedicationCategory) {
+  const icons = {
+    non_opioid: Pill,
+    opioid: Syringe,
+    topical_local: Droplets,
+    adjuvant: Stethoscope,
+    intranasal: Activity,
+  };
+  return icons[category];
 }
 
 // Intervention Card Component
@@ -208,11 +236,192 @@ function InterventionCard({ intervention }: { intervention: InterventionInfo }) 
   );
 }
 
+// Medication Card Component
+function MedicationCard({ medication }: { medication: MedicationInfo }) {
+  const [expanded, setExpanded] = useState(false);
+  
+  return (
+    <div className={`border rounded-lg bg-white overflow-hidden ${medication.blackBoxWarning ? 'border-red-300' : ''}`}>
+      {medication.blackBoxWarning && (
+        <div className="bg-red-600 text-white px-4 py-2 text-xs font-semibold flex items-center gap-2">
+          <ShieldAlert className="w-4 h-4" />
+          FDA BLACK BOX WARNING
+        </div>
+      )}
+      <button
+        onClick={() => setExpanded(!expanded)}
+        className="w-full p-4 text-left hover:bg-muted/30 transition-colors"
+      >
+        <div className="flex items-start justify-between gap-3">
+          <div className="flex-1">
+            <div className="flex items-center gap-2 flex-wrap">
+              <span className="font-semibold">{medication.name}</span>
+              <Badge variant="outline" className={`text-xs ${getEvidenceBadgeStyle(medication.evidenceLevel)}`}>
+                Level {medication.evidenceLevel}
+              </Badge>
+              {medication.ageRestrictions && (
+                <Badge variant="outline" className="text-xs bg-amber-50 text-amber-800 border-amber-300">
+                  {medication.ageRestrictions}
+                </Badge>
+              )}
+            </div>
+            <p className="text-sm text-muted-foreground mt-1">{medication.description}</p>
+          </div>
+          {expanded ? (
+            <ChevronUp className="w-5 h-5 text-muted-foreground shrink-0" />
+          ) : (
+            <ChevronDown className="w-5 h-5 text-muted-foreground shrink-0" />
+          )}
+        </div>
+      </button>
+      
+      {expanded && (
+        <div className="px-4 pb-4 space-y-4 border-t bg-muted/20">
+          <div className="pt-4">
+            <p className="text-xs text-muted-foreground mb-2">
+              <BookOpen className="w-3 h-3 inline mr-1" />
+              Source: {medication.evidenceSource}
+            </p>
+          </div>
+          
+          {/* Black Box Warning */}
+          {medication.blackBoxWarning && (
+            <div className="bg-red-100 border border-red-300 p-3 rounded-lg">
+              <p className="text-sm text-red-800 font-medium">{medication.blackBoxWarning}</p>
+            </div>
+          )}
+          
+          {/* Dosing Table */}
+          <div>
+            <h4 className="text-sm font-semibold flex items-center gap-2 mb-2">
+              <Syringe className="w-4 h-4 text-primary" />
+              Dosing
+            </h4>
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm border-collapse">
+                <thead>
+                  <tr className="bg-muted/50">
+                    <th className="text-left p-2 border">Route</th>
+                    <th className="text-left p-2 border">Dose</th>
+                    <th className="text-left p-2 border">Frequency</th>
+                    <th className="text-left p-2 border">Max/Notes</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {medication.dosing.map((dose, idx) => (
+                    <tr key={idx} className="border-b">
+                      <td className="p-2 border font-medium">{dose.route}</td>
+                      <td className="p-2 border">{dose.dose}</td>
+                      <td className="p-2 border">{dose.frequency}</td>
+                      <td className="p-2 border text-muted-foreground">
+                        {dose.maxDose && <span className="block">{dose.maxDose}</span>}
+                        {dose.notes && <span className="text-xs">{dose.notes}</span>}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+          
+          {/* Indications */}
+          {medication.indications.length > 0 && (
+            <div>
+              <h4 className="text-sm font-semibold flex items-center gap-2 mb-2">
+                <Check className="w-4 h-4 text-green-600" />
+                Indications
+              </h4>
+              <div className="flex flex-wrap gap-1">
+                {medication.indications.map((indication, idx) => (
+                  <Badge key={idx} variant="outline" className="text-xs bg-green-50 text-green-800 border-green-200">
+                    {indication}
+                  </Badge>
+                ))}
+              </div>
+            </div>
+          )}
+          
+          {/* Contraindications */}
+          {medication.contraindications.length > 0 && (
+            <div className="bg-red-50 p-3 rounded-lg">
+              <h4 className="text-sm font-semibold flex items-center gap-2 mb-2 text-red-800">
+                <AlertTriangle className="w-4 h-4" />
+                Contraindications
+              </h4>
+              <ul className="text-sm space-y-1 text-red-700">
+                {medication.contraindications.map((contra, idx) => (
+                  <li key={idx} className="flex items-start gap-2">
+                    <span className="mt-1">•</span>
+                    <span>{contra}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+          
+          {/* Side Effects */}
+          {medication.sideEffects.length > 0 && (
+            <div>
+              <h4 className="text-sm font-semibold flex items-center gap-2 mb-2">
+                <Info className="w-4 h-4 text-amber-500" />
+                Side Effects
+              </h4>
+              <div className="flex flex-wrap gap-1">
+                {medication.sideEffects.map((effect, idx) => (
+                  <Badge key={idx} variant="outline" className="text-xs bg-amber-50 text-amber-800 border-amber-200">
+                    {effect}
+                  </Badge>
+                ))}
+              </div>
+            </div>
+          )}
+          
+          {/* Precautions */}
+          {medication.precautions.length > 0 && (
+            <div>
+              <h4 className="text-sm font-semibold flex items-center gap-2 mb-2">
+                <Lightbulb className="w-4 h-4 text-blue-500" />
+                Precautions
+              </h4>
+              <ul className="text-sm space-y-1">
+                {medication.precautions.map((precaution, idx) => (
+                  <li key={idx} className="flex items-start gap-2">
+                    <span className="text-blue-500 mt-1">•</span>
+                    <span>{precaution}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+          
+          {/* Monitoring */}
+          {medication.monitoring && medication.monitoring.length > 0 && (
+            <div>
+              <h4 className="text-sm font-semibold flex items-center gap-2 mb-2">
+                <Activity className="w-4 h-4 text-purple-500" />
+                Monitoring Required
+              </h4>
+              <div className="flex flex-wrap gap-1">
+                {medication.monitoring.map((monitor, idx) => (
+                  <Badge key={idx} variant="outline" className="text-xs bg-purple-50 text-purple-800 border-purple-200">
+                    {monitor}
+                  </Badge>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
+
 export default function QuickAssessment() {
   // Form state
   const [selectedScale, setSelectedScale] = useState<PainScaleType | null>(null);
   const [scoreData, setScoreData] = useState<Record<string, number>>({});
   const [selectedAgeCategory, setSelectedAgeCategory] = useState<'neonate' | 'infant' | 'toddler' | 'child' | 'adolescent'>('child');
+  const [interventionTab, setInterventionTab] = useState<'non_pharmacological' | 'pharmacological'>('non_pharmacological');
   
   // Get scale info
   const scaleInfo = selectedScale ? PAIN_SCALES[selectedScale] : null;
@@ -246,6 +455,47 @@ export default function QuickAssessment() {
   const interventionsByCategory = useMemo(() => {
     return getInterventionsByCategory(selectedAgeCategory);
   }, [selectedAgeCategory]);
+  
+  // Get recommended medications based on pain level
+  const recommendedMedications = useMemo(() => {
+    if (painLevel === 'none') return { step: null, medications: [] };
+    
+    const stepMap = {
+      mild: WHO_LADDER.step1,
+      moderate: WHO_LADDER.step2,
+      severe: WHO_LADDER.step3,
+    };
+    
+    return { step: stepMap[painLevel], medications: stepMap[painLevel].medications };
+  }, [painLevel]);
+  
+  // Get age in years for medication filtering
+  const ageInYears = useMemo(() => {
+    const ageMap = {
+      neonate: 0,
+      infant: 0.5,
+      toddler: 2,
+      child: 6,
+      adolescent: 14,
+    };
+    return ageMap[selectedAgeCategory];
+  }, [selectedAgeCategory]);
+  
+  // Filter medications by age
+  const filterMedicationsByAge = (medications: MedicationInfo[]) => {
+    return medications.filter(med => {
+      if (!med.ageRestrictions) return true;
+      if (med.ageRestrictions.includes('NOT recommended')) {
+        // Codeine and tramadol - not for <12
+        return ageInYears >= 12;
+      }
+      const minAge = parseInt(med.ageRestrictions.match(/≥(\d+)/)?.[1] || '0');
+      if (med.ageRestrictions.includes('months')) {
+        return ageInYears >= minAge / 12;
+      }
+      return ageInYears >= minAge;
+    });
+  };
   
   // Update age category when scale changes
   const updateAgeCategoryFromScale = (scale: PainScaleType) => {
@@ -300,6 +550,15 @@ export default function QuickAssessment() {
     { value: 'adolescent', label: 'Adolescent (12+ years)' },
   ];
   
+  // Medication categories for tabs
+  const medicationCategories: { key: MedicationCategory; medications: MedicationInfo[] }[] = [
+    { key: 'non_opioid', medications: NON_OPIOID_MEDICATIONS },
+    { key: 'opioid', medications: OPIOID_MEDICATIONS },
+    { key: 'topical_local', medications: TOPICAL_MEDICATIONS },
+    { key: 'adjuvant', medications: ADJUVANT_MEDICATIONS },
+    { key: 'intranasal', medications: INTRANASAL_MEDICATIONS },
+  ];
+  
   return (
     <div className="min-h-screen bg-gradient-to-b from-sky-50 to-white">
       {/* Header */}
@@ -335,7 +594,7 @@ export default function QuickAssessment() {
         </div>
       </header>
       
-      <main className="container py-8 max-w-3xl">
+      <main className="container py-8 max-w-4xl">
         {/* Scale Selection */}
         <Card className="mb-6">
           <CardHeader className="pb-3">
@@ -487,20 +746,29 @@ export default function QuickAssessment() {
                   <p className={`text-3xl font-bold ${painStyle.text} capitalize`}>{painLevel}</p>
                 </div>
               </div>
+              
+              {/* WHO Ladder Recommendation */}
+              {recommendedMedications.step && (
+                <div className="mt-4 pt-4 border-t border-current/20">
+                  <p className={`text-sm ${painStyle.text}`}>
+                    <strong>WHO Analgesic Ladder:</strong> {recommendedMedications.step.name} — {recommendedMedications.step.description}
+                  </p>
+                </div>
+              )}
             </CardContent>
           </Card>
         )}
         
-        {/* Enhanced Interventions Section */}
+        {/* Interventions Section - Combined Non-Pharmacological and Pharmacological */}
         {isAssessmentComplete && painLevel !== 'none' && (
           <Card>
             <CardHeader className="pb-3">
               <CardTitle className="text-lg flex items-center gap-2">
                 <Heart className="w-5 h-5 text-primary" />
-                Evidence-Based Interventions
+                Treatment Recommendations
               </CardTitle>
               <CardDescription>
-                Non-pharmacological comfort measures based on CPS, SickKids Comfort Promise, and Cochrane Reviews
+                Evidence-based interventions from AAP, CPS, SickKids, Stanford, and WHO Guidelines
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -524,56 +792,171 @@ export default function QuickAssessment() {
                 </Select>
               </div>
               
-              {/* Evidence Level Legend */}
-              <div className="flex flex-wrap gap-3 mb-4 p-3 bg-muted/30 rounded-lg">
-                <span className="text-sm font-medium">Evidence Levels:</span>
-                <Badge variant="outline" className={`text-xs ${getEvidenceBadgeStyle('A')}`}>
-                  A - Strong (Cochrane/Meta-analysis)
-                </Badge>
-                <Badge variant="outline" className={`text-xs ${getEvidenceBadgeStyle('B')}`}>
-                  B - Good (RCTs/Guidelines)
-                </Badge>
-                <Badge variant="outline" className={`text-xs ${getEvidenceBadgeStyle('C')}`}>
-                  C - Limited (Clinical Practice)
-                </Badge>
-              </div>
-              
-              {/* Tabbed Interventions by Category */}
-              <Tabs defaultValue="physical" className="w-full">
-                <TabsList className="grid w-full grid-cols-2 md:grid-cols-4 h-auto">
-                  {(['physical', 'psychological', 'environmental', 'pharmacological_adjunct'] as InterventionCategory[]).map((category) => {
-                    const Icon = getCategoryIcon(category);
-                    const count = interventionsByCategory[category].length;
-                    return (
-                      <TabsTrigger 
-                        key={category} 
-                        value={category}
-                        className="flex flex-col gap-1 py-2 px-2 text-xs"
-                      >
-                        <Icon className="w-4 h-4" />
-                        <span className="hidden md:inline">{getCategoryLabel(category)}</span>
-                        <span className="md:hidden">{category === 'pharmacological_adjunct' ? 'Pharma' : getCategoryLabel(category).split(' ')[0]}</span>
-                        <span className="text-muted-foreground">({count})</span>
-                      </TabsTrigger>
-                    );
-                  })}
+              {/* Main Tabs: Non-Pharmacological vs Pharmacological */}
+              <Tabs value={interventionTab} onValueChange={(v) => setInterventionTab(v as typeof interventionTab)} className="w-full">
+                <TabsList className="grid w-full grid-cols-2 mb-4">
+                  <TabsTrigger value="non_pharmacological" className="gap-2">
+                    <Hand className="w-4 h-4" />
+                    Non-Pharmacological
+                  </TabsTrigger>
+                  <TabsTrigger value="pharmacological" className="gap-2">
+                    <Pill className="w-4 h-4" />
+                    Pharmacological
+                  </TabsTrigger>
                 </TabsList>
                 
-                {(['physical', 'psychological', 'environmental', 'pharmacological_adjunct'] as InterventionCategory[]).map((category) => (
-                  <TabsContent key={category} value={category} className="mt-4">
-                    <div className="space-y-3">
-                      {interventionsByCategory[category].length === 0 ? (
-                        <p className="text-sm text-muted-foreground text-center py-4">
-                          No interventions available for this age category
-                        </p>
-                      ) : (
-                        interventionsByCategory[category].map((intervention) => (
-                          <InterventionCard key={intervention.id} intervention={intervention} />
-                        ))
-                      )}
+                {/* Non-Pharmacological Tab */}
+                <TabsContent value="non_pharmacological">
+                  {/* Evidence Level Legend */}
+                  <div className="flex flex-wrap gap-3 mb-4 p-3 bg-muted/30 rounded-lg">
+                    <span className="text-sm font-medium">Evidence Levels:</span>
+                    <Badge variant="outline" className={`text-xs ${getEvidenceBadgeStyle('A')}`}>
+                      A - Strong (Cochrane/Meta-analysis)
+                    </Badge>
+                    <Badge variant="outline" className={`text-xs ${getEvidenceBadgeStyle('B')}`}>
+                      B - Good (RCTs/Guidelines)
+                    </Badge>
+                    <Badge variant="outline" className={`text-xs ${getEvidenceBadgeStyle('C')}`}>
+                      C - Limited (Clinical Practice)
+                    </Badge>
+                  </div>
+                  
+                  {/* Tabbed Interventions by Category */}
+                  <Tabs defaultValue="physical" className="w-full">
+                    <TabsList className="grid w-full grid-cols-2 md:grid-cols-4 h-auto">
+                      {(['physical', 'psychological', 'environmental', 'pharmacological_adjunct'] as InterventionCategory[]).map((category) => {
+                        const Icon = getCategoryIcon(category);
+                        const count = interventionsByCategory[category].length;
+                        return (
+                          <TabsTrigger 
+                            key={category} 
+                            value={category}
+                            className="flex flex-col gap-1 py-2 px-2 text-xs"
+                          >
+                            <Icon className="w-4 h-4" />
+                            <span className="hidden md:inline">{getCategoryLabel(category)}</span>
+                            <span className="md:hidden">{category === 'pharmacological_adjunct' ? 'Adjuncts' : getCategoryLabel(category).split(' ')[0]}</span>
+                            <span className="text-muted-foreground">({count})</span>
+                          </TabsTrigger>
+                        );
+                      })}
+                    </TabsList>
+                    
+                    {(['physical', 'psychological', 'environmental', 'pharmacological_adjunct'] as InterventionCategory[]).map((category) => (
+                      <TabsContent key={category} value={category} className="mt-4">
+                        <div className="space-y-3">
+                          {interventionsByCategory[category].length === 0 ? (
+                            <p className="text-sm text-muted-foreground text-center py-4">
+                              No interventions available for this age category
+                            </p>
+                          ) : (
+                            interventionsByCategory[category].map((intervention) => (
+                              <InterventionCard key={intervention.id} intervention={intervention} />
+                            ))
+                          )}
+                        </div>
+                      </TabsContent>
+                    ))}
+                  </Tabs>
+                </TabsContent>
+                
+                {/* Pharmacological Tab */}
+                <TabsContent value="pharmacological">
+                  {/* Important Notice */}
+                  <div className="bg-amber-50 border border-amber-200 p-4 rounded-lg mb-4">
+                    <div className="flex items-start gap-3">
+                      <AlertTriangle className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
+                      <div className="text-sm text-amber-800">
+                        <p className="font-semibold mb-1">Clinical Decision Support</p>
+                        <p>Dosing information is for reference only. Always verify with current formulary, consider patient-specific factors (weight, renal/hepatic function, allergies), and follow institutional protocols. Consult pharmacy for complex cases.</p>
+                      </div>
                     </div>
-                  </TabsContent>
-                ))}
+                  </div>
+                  
+                  {/* Medication Categories */}
+                  <Tabs defaultValue="non_opioid" className="w-full">
+                    <TabsList className="grid w-full grid-cols-3 md:grid-cols-5 h-auto mb-4">
+                      {medicationCategories.map(({ key, medications }) => {
+                        const Icon = getMedCategoryIcon(key);
+                        const filtered = filterMedicationsByAge(medications);
+                        return (
+                          <TabsTrigger 
+                            key={key} 
+                            value={key}
+                            className="flex flex-col gap-1 py-2 px-1 text-xs"
+                          >
+                            <Icon className="w-4 h-4" />
+                            <span className="hidden md:inline text-xs">{getMedicationCategoryLabel(key)}</span>
+                            <span className="md:hidden text-xs">
+                              {key === 'non_opioid' ? 'Non-Opioid' : 
+                               key === 'topical_local' ? 'Topical' :
+                               key === 'intranasal' ? 'IN' :
+                               getMedicationCategoryLabel(key).split(' ')[0]}
+                            </span>
+                            <span className="text-muted-foreground">({filtered.length})</span>
+                          </TabsTrigger>
+                        );
+                      })}
+                    </TabsList>
+                    
+                    {medicationCategories.map(({ key, medications }) => {
+                      const filtered = filterMedicationsByAge(medications);
+                      return (
+                        <TabsContent key={key} value={key} className="mt-4">
+                          <div className="space-y-3">
+                            {filtered.length === 0 ? (
+                              <p className="text-sm text-muted-foreground text-center py-4">
+                                No medications available for this age category
+                              </p>
+                            ) : (
+                              filtered.map((medication) => (
+                                <MedicationCard key={medication.id} medication={medication} />
+                              ))
+                            )}
+                          </div>
+                        </TabsContent>
+                      );
+                    })}
+                  </Tabs>
+                  
+                  {/* Side Effect Management */}
+                  <div className="mt-6 p-4 bg-muted/30 rounded-lg">
+                    <h4 className="font-semibold mb-3 flex items-center gap-2">
+                      <Stethoscope className="w-4 h-4" />
+                      Opioid Side Effect Management
+                    </h4>
+                    <div className="grid md:grid-cols-3 gap-4 text-sm">
+                      <div>
+                        <p className="font-medium text-muted-foreground mb-1">Nausea/Vomiting</p>
+                        <p>{SIDE_EFFECT_MANAGEMENT.nausea.medication}</p>
+                        <p className="text-muted-foreground">{SIDE_EFFECT_MANAGEMENT.nausea.dose}</p>
+                      </div>
+                      <div>
+                        <p className="font-medium text-muted-foreground mb-1">Pruritus</p>
+                        {SIDE_EFFECT_MANAGEMENT.pruritus.medications.map((med, idx) => (
+                          <p key={idx}>{med.name}: {med.dose}</p>
+                        ))}
+                      </div>
+                      <div>
+                        <p className="font-medium text-muted-foreground mb-1">Constipation</p>
+                        {SIDE_EFFECT_MANAGEMENT.constipation.medications.map((med, idx) => (
+                          <p key={idx}>{med.name}</p>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                  
+                  {/* Naloxone Reversal */}
+                  <div className="mt-4">
+                    <h4 className="font-semibold mb-3 flex items-center gap-2 text-red-700">
+                      <ShieldAlert className="w-4 h-4" />
+                      Opioid Reversal (Emergency)
+                    </h4>
+                    {REVERSAL_MEDICATIONS.map((med) => (
+                      <MedicationCard key={med.id} medication={med} />
+                    ))}
+                  </div>
+                </TabsContent>
               </Tabs>
             </CardContent>
           </Card>
@@ -583,7 +966,8 @@ export default function QuickAssessment() {
         <div className="hidden print:block mt-8 text-sm text-muted-foreground">
           <p>Assessment Date: {new Date().toLocaleString()}</p>
           <p>Generated by PediPain - Pediatric Pain Assessment Tool</p>
-          <p>Evidence sources: Canadian Paediatric Society 2022, SickKids Comfort Promise, Cochrane Reviews, IASP Guidelines</p>
+          <p>Evidence sources: AAP 2024, Canadian Paediatric Society 2022, SickKids Comfort Promise, Stanford Pediatric Pain Reference, WHO Guidelines, Cochrane Reviews</p>
+          <p className="mt-2 font-semibold">Disclaimer: Medication dosing is for reference only. Always verify with current formulary and consider patient-specific factors.</p>
         </div>
       </main>
     </div>
