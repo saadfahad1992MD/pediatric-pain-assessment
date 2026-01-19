@@ -42,3 +42,10 @@
 - [x] Scale usage instructions
 - [x] Interpretation guidelines
 - [x] Unit tests for pain assessment logic
+
+
+## User Feedback - Simplified Interface
+
+- [x] Replace multi-step assessment wizard with simpler single-page interface
+- [x] Add dropdown selector for pain scales with age recommendations shown next to each option
+- [x] Make the interface more direct and easier to use

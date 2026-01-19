@@ -11,13 +11,15 @@ import AssessmentHistory from "./pages/AssessmentHistory";
 import PatientManagement from "./pages/PatientManagement";
 import Resources from "./pages/Resources";
 import ScaleGuide from "./pages/ScaleGuide";
+import QuickAssessment from "./pages/QuickAssessment";
 
 function Router() {
   return (
     <Switch>
       <Route path="/" component={Home} />
       <Route path="/dashboard" component={Dashboard} />
-      <Route path="/assessment/new" component={NewAssessment} />
+      <Route path="/assessment/new" component={QuickAssessment} />
+      <Route path="/assessment/wizard" component={NewAssessment} />
       <Route path="/assessment/new/:patientId" component={NewAssessment} />
       <Route path="/history" component={AssessmentHistory} />
       <Route path="/history/:patientId" component={AssessmentHistory} />
