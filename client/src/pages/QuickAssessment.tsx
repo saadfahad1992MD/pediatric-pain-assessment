@@ -50,7 +50,6 @@ import {
 } from "lucide-react";
 import { useMemo, useState } from "react";
 import { Link } from "wouter";
-import { DoseCalculatorPanel } from "@/components/DoseCalculator";
 
 // Wong-Baker FACES SVG components
 const FaceSVG = ({ score, selected, onClick }: { score: number; selected: boolean; onClick: () => void }) => {
@@ -872,18 +871,6 @@ export default function QuickAssessment() {
                         <p>Dosing information is for reference only. Always verify with current formulary, consider patient-specific factors (weight, renal/hepatic function, allergies), and follow institutional protocols. Consult pharmacy for complex cases.</p>
                       </div>
                     </div>
-                  </div>
-                  
-                  {/* Weight-Based Dose Calculator */}
-                  <div className="mb-6">
-                    <DoseCalculatorPanel 
-                      medications={[
-                        ...filterMedicationsByAge(NON_OPIOID_MEDICATIONS),
-                        ...filterMedicationsByAge(OPIOID_MEDICATIONS),
-                        ...filterMedicationsByAge(INTRANASAL_MEDICATIONS)
-                      ]}
-                      ageCategory={selectedAgeCategory}
-                    />
                   </div>
                   
                   {/* Medication Categories */}
