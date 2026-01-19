@@ -49,3 +49,12 @@
 - [x] Replace multi-step assessment wizard with simpler single-page interface
 - [x] Add dropdown selector for pain scales with age recommendations shown next to each option
 - [x] Make the interface more direct and easier to use
+
+
+## User Feedback - Remove Unnecessary Fields
+
+- [x] Remove Patient ID/MRN field from assessment
+- [x] Remove assessment context dropdown
+- [x] Remove clinical notes field
+- [x] Remove save to database functionality - make it a standalone scoring tool
+- [x] Simplify to just: select scale → score → see result

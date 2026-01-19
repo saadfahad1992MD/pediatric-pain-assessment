@@ -71,37 +71,18 @@ export default function Home() {
               age-appropriate pain measurement scales for pediatric patients from neonates to adolescents.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              {isAuthenticated ? (
-                <>
-                  <Link href="/assessment/new">
-                    <Button size="lg" className="gap-2">
-                      <ClipboardList className="w-5 h-5" />
-                      Start Assessment
-                    </Button>
-                  </Link>
-                  <Link href="/dashboard">
-                    <Button size="lg" variant="outline" className="gap-2">
-                      <Activity className="w-5 h-5" />
-                      View Dashboard
-                    </Button>
-                  </Link>
-                </>
-              ) : (
-                <>
-                  <a href={getLoginUrl()}>
-                    <Button size="lg" className="gap-2">
-                      Get Started
-                      <ChevronRight className="w-5 h-5" />
-                    </Button>
-                  </a>
-                  <Link href="/resources">
-                    <Button size="lg" variant="outline" className="gap-2">
-                      <BookOpen className="w-5 h-5" />
-                      Learn More
-                    </Button>
-                  </Link>
-                </>
-              )}
+              <Link href="/assessment/new">
+                <Button size="lg" className="gap-2">
+                  <ClipboardList className="w-5 h-5" />
+                  Start Assessment
+                </Button>
+              </Link>
+              <Link href="/resources">
+                <Button size="lg" variant="outline" className="gap-2">
+                  <BookOpen className="w-5 h-5" />
+                  Learn More
+                </Button>
+              </Link>
             </div>
           </div>
         </div>
