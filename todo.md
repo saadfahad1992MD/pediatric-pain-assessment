@@ -58,3 +58,12 @@
 - [x] Remove clinical notes field
 - [x] Remove save to database functionality - make it a standalone scoring tool
 - [x] Simplify to just: select scale → score → see result
+
+
+## Enhancement - Evidence-Based Interventions from SickKids
+
+- [x] Research SickKids non-pharmacological therapies content
+- [x] Add more evidence-based interventions with proper categorization
+- [x] Include age-specific intervention recommendations
+- [x] Add evidence levels and references for each intervention
+- [x] Organize interventions by category (physical, psychological, environmental)

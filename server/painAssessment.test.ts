@@ -286,7 +286,7 @@ describe("Scale Component Validation", () => {
 
   it("Wong-Baker should have 1 component (self-report)", () => {
     expect(PAIN_SCALES.wong_baker.components.length).toBe(1);
-    expect(PAIN_SCALES.wong_baker.components[0].id).toBe("pain_face");
+    expect(PAIN_SCALES.wong_baker.components[0].id).toBe("faces");
   });
 
   it("Each component option should have value, label, and description", () => {
