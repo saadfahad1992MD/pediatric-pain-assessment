@@ -21,15 +21,18 @@ import {
 } from "@/components/ui/sidebar";
 import { getLoginUrl } from "@/const";
 import { useIsMobile } from "@/hooks/useMobile";
-import { LayoutDashboard, LogOut, PanelLeft, Users } from "lucide-react";
+import { Activity, Baby, BookOpen, ClipboardList, Heart, LayoutDashboard, LogOut, PanelLeft, Users } from "lucide-react";
 import { CSSProperties, useEffect, useRef, useState } from "react";
 import { useLocation } from "wouter";
 import { DashboardLayoutSkeleton } from './DashboardLayoutSkeleton';
 import { Button } from "./ui/button";
 
 const menuItems = [
-  { icon: LayoutDashboard, label: "Page 1", path: "/" },
-  { icon: Users, label: "Page 2", path: "/some-path" },
+  { icon: LayoutDashboard, label: "Dashboard", path: "/dashboard" },
+  { icon: ClipboardList, label: "New Assessment", path: "/assessment/new" },
+  { icon: Activity, label: "Assessment History", path: "/history" },
+  { icon: Users, label: "Patients", path: "/patients" },
+  { icon: BookOpen, label: "Resources", path: "/resources" },
 ];
 
 const SIDEBAR_WIDTH_KEY = "sidebar-width";
@@ -170,8 +173,9 @@ function DashboardLayoutContent({
               </button>
               {!isCollapsed ? (
                 <div className="flex items-center gap-2 min-w-0">
+                  <Heart className="w-5 h-5 text-primary" />
                   <span className="font-semibold tracking-tight truncate">
-                    Navigation
+                    PediPain
                   </span>
                 </div>
               ) : null}
