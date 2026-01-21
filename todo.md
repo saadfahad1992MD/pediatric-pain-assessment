@@ -111,3 +111,9 @@
 
 - [x] Copy user-provided Wong-Baker FACES image to public folder
 - [x] Update QuickAssessment.tsx to use the original line-drawing faces image
+
+
+## UI Improvements - Navigation and Styling
+
+- [x] Add back/home button to assessment page header
+- [x] Change Resources button to green color on main page

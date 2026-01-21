@@ -69,7 +69,7 @@ export default function Home() {
                 </Button>
               </Link>
               <Link href="/resources">
-                <Button size="lg" variant="outline" className="gap-2">
+                <Button size="lg" variant="outline" className="gap-2 border-green-600 text-green-700 hover:bg-green-50 hover:text-green-800">
                   <BookOpen className="w-5 h-5" />
                   Resources
                 </Button>
