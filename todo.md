@@ -143,3 +143,8 @@
 - [x] Update feature box 1: "All Assessment Tools in One Place" with collection icon (Layers)
 - [x] Update feature box 2: "All Treatment & Recommendations in One Place" with treatment icon (Pill)
 - [x] Update feature box 3: "Instant Calculation in One Place" with speed/lightning icon (Zap)
+
+
+## Homepage Description Update
+
+- [x] Change description to "A comprehensive website that helps healthcare providers to get the Right assessment the Right treatment the Right recommendations"

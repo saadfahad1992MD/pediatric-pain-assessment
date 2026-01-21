@@ -61,8 +61,7 @@ export default function Home() {
               All-in-One Pediatric Pain Assessment and Management Hub
             </p>
             <p className="text-lg text-muted-foreground mb-8 text-balance">
-              A comprehensive tool that helps healthcare providers select and use 
-              age-appropriate pain measurement scales for pediatric patients from neonates to adolescents.
+              A comprehensive website that helps healthcare providers to get the <span className="font-semibold text-foreground">Right Assessment</span>, the <span className="font-semibold text-foreground">Right Treatment</span>, the <span className="font-semibold text-foreground">Right Recommendations</span>.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link href="/assessment/new">
