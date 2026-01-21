@@ -32,7 +32,7 @@ export default function Home() {
             </div>
             <div className="min-w-0">
               <h1 className="font-semibold text-base sm:text-lg text-foreground truncate">PediPain360</h1>
-              <p className="text-xs text-muted-foreground hidden xs:block">All-in-One</p>
+              <p className="text-xs text-muted-foreground">All-in-One</p>
             </div>
           </div>
           <nav className="flex items-center shrink-0">

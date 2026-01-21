@@ -170,3 +170,5 @@
 ## UI Change - Home Page Header Simplification
 
 - [x] Remove New Assessment button from Home page header (already available in hero section)
+
+- [x] Show All-in-One tagline on mobile (was hidden on small screens)
