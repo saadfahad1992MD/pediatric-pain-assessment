@@ -117,3 +117,10 @@
 
 - [x] Add back/home button to assessment page header
 - [x] Change Resources button to green color on main page
+
+
+## Footer Improvements - LinkedIn and Name Styling
+
+- [x] Replace LinkedIn icon with LinkedIn text logo style
+- [x] Make Dr. Saad Almodameg name clickable with LinkedIn link
+- [x] Change name color to blue

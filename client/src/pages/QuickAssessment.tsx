@@ -46,8 +46,7 @@ import {
   Droplets,
   Stethoscope,
   ShieldAlert,
-  Activity,
-  Linkedin
+  Activity
 } from "lucide-react";
 import { useMemo, useState } from "react";
 import { Link } from "wouter";
@@ -929,15 +928,23 @@ export default function QuickAssessment() {
             
             <div className="flex items-center gap-2 text-sm text-muted-foreground">
               <span>Developed by</span>
-              <span className="font-medium text-foreground">Dr. Saad Almodameg</span>
               <a 
                 href="https://www.linkedin.com/in/saad-almodameg-%D8%B3%D8%B9%D8%AF-%D8%A7%D9%84%D9%85%D8%AF%D9%8A%D9%85%D9%8A%D8%BA-5a0a43308"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-[#0A66C2] text-white hover:bg-[#004182] transition-colors"
+                className="font-medium text-[#0A66C2] hover:text-[#004182] hover:underline transition-colors"
+              >
+                Dr. Saad Almodameg
+              </a>
+              <a 
+                href="https://www.linkedin.com/in/saad-almodameg-%D8%B3%D8%B9%D8%AF-%D8%A7%D9%84%D9%85%D8%AF%D9%8A%D9%85%D9%8A%D8%BA-5a0a43308"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-0.5 text-[#0A66C2] hover:text-[#004182] transition-colors"
                 aria-label="LinkedIn Profile"
               >
-                <Linkedin className="w-4 h-4" />
+                <span className="font-semibold">Linked</span>
+                <span className="font-semibold bg-[#0A66C2] text-white px-1 rounded">in</span>
               </a>
             </div>
 
