@@ -148,3 +148,9 @@
 ## Homepage Description Update
 
 - [x] Change description to "A comprehensive website that helps healthcare providers to get the Right assessment the Right treatment the Right recommendations"
+
+
+## Header/Footer Tagline Update
+
+- [x] Change "Pediatric Pain Assessment" to "All-in-One" in header (top left)
+- [x] Change "Pediatric Pain Assessment Tool" to "All-in-One" in footer (bottom left)

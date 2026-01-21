@@ -41,7 +41,7 @@ export default function Resources() {
                 </div>
                 <div>
                   <h1 className="font-semibold text-lg text-foreground">PediPain360</h1>
-                  <p className="text-xs text-muted-foreground">Pediatric Pain Assessment</p>
+                  <p className="text-xs text-muted-foreground">All-in-One</p>
                 </div>
               </div>
             </Link>
@@ -461,7 +461,7 @@ export default function Resources() {
               </div>
               <div>
                 <p className="font-semibold text-foreground">PediPain360</p>
-                <p className="text-xs text-muted-foreground">Pediatric Pain Assessment Tool</p>
+                <p className="text-xs text-muted-foreground">All-in-One</p>
               </div>
             </div>
             

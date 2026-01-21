@@ -1124,7 +1124,7 @@ export default function QuickAssessment() {
               </div>
               <div>
                 <p className="font-semibold text-foreground">PediPain360</p>
-                <p className="text-xs text-muted-foreground">Pediatric Pain Assessment Tool</p>
+                <p className="text-xs text-muted-foreground">All-in-One</p>
               </div>
             </div>
             
