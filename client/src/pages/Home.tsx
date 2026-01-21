@@ -179,25 +179,35 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Supported Scales Section */}
-      <section className="py-16 px-4 bg-muted/30">
+      {/* Pain Scales Overview */}
+      <section className="py-20 px-4 bg-muted/30">
         <div className="container">
-          <h2 className="text-2xl font-bold text-center mb-8">Validated Pain Scales</h2>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-foreground mb-4">
+              Validated Pain Assessment Scales
+            </h2>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+              Our tool incorporates internationally recognized, evidence-based pain scales
+            </p>
+          </div>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 max-w-5xl mx-auto">
             {[
-              { name: "PIPP-R", age: "Neonates", gradient: "from-pink-500 to-rose-500" },
-              { name: "NIPS", age: "Infants <1yr", gradient: "from-purple-500 to-violet-500" },
-              { name: "FLACC", age: "2mo - 7yr", gradient: "from-blue-500 to-cyan-500" },
-              { name: "CHEOPS", age: "1-7yr Post-op", gradient: "from-teal-500 to-emerald-500" },
-              { name: "Wong-Baker", age: "3+ years", gradient: "from-amber-500 to-orange-500" },
-              { name: "VAS", age: "8+ years", gradient: "from-red-500 to-pink-500" },
+              { name: 'PIPP-R', age: '≤48 weeks PMA', type: 'Behavioral', color: 'bg-blue-500' },
+              { name: 'NIPS', age: '0-12 months', type: 'Behavioral', color: 'bg-green-500' },
+              { name: 'FLACC', age: '2mo - 7 years', type: 'Behavioral', color: 'bg-purple-500' },
+              { name: 'CHEOPS', age: '1-7 years', type: 'Behavioral', color: 'bg-orange-500' },
+              { name: 'Wong-Baker', age: '3+ years', type: 'Self-Report', color: 'bg-pink-500' },
+              { name: 'VAS', age: '8+ years', type: 'Self-Report', color: 'bg-teal-500' },
             ].map((scale) => (
-              <div 
-                key={scale.name} 
-                className={`bg-gradient-to-br ${scale.gradient} rounded-xl p-5 text-center shadow-lg hover:shadow-xl transition-all hover:scale-105 cursor-pointer`}
-              >
-                <p className="font-bold text-white text-lg">{scale.name}</p>
-                <p className="text-sm text-white/90">{scale.age}</p>
+              <div key={scale.name} className="flex items-center gap-4 p-4 bg-card rounded-lg border border-border">
+                <div className={`w-3 h-12 rounded-full ${scale.color}`} />
+                <div>
+                  <h3 className="font-semibold text-foreground">{scale.name}</h3>
+                  <p className="text-sm text-muted-foreground">{scale.age}</p>
+                  <span className="text-xs px-2 py-0.5 rounded-full bg-muted text-muted-foreground">
+                    {scale.type}
+                  </span>
+                </div>
               </div>
             ))}
           </div>

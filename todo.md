@@ -99,3 +99,9 @@
 ## UI Fix - Restore Colorful Pain Scale Cards
 
 - [x] Restore colorful gradient backgrounds for Validated Pain Scales section on Home page
+
+
+## UI Change - Remove Validated Pain Scales Section
+
+- [x] Remove the Validated Pain Scales section from Home page
+- [x] Restored original design with colored vertical bars (user preference)
