@@ -134,3 +134,12 @@
 - [x] Add reassessment timing guidance
 - [x] Add key clinical decision points
 - [x] Add links to full guidelines in Resources page
+
+
+## Homepage Branding Update
+
+- [x] Change headline from "Accurate Pain Assessment for Every Child" to "PediPain360"
+- [x] Add tagline "All-in-One Pediatric Pain Assessment and Management Hub"
+- [x] Update feature box 1: "All Assessment Tools in One Place" with collection icon (Layers)
+- [x] Update feature box 2: "All Treatment & Recommendations in One Place" with treatment icon (Pill)
+- [x] Update feature box 3: "Instant Calculation in One Place" with speed/lightning icon (Zap)

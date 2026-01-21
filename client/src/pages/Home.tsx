@@ -1,13 +1,14 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { 
-  Baby, 
   BookOpen, 
   ClipboardList, 
   Heart, 
   Shield,
-  Stethoscope,
-  AlertTriangle
+  AlertTriangle,
+  Layers,
+  Pill,
+  Zap
 } from "lucide-react";
 import { Link } from "wouter";
 
@@ -53,10 +54,13 @@ export default function Home() {
               <Shield className="w-4 h-4" />
               Evidence-Based Pain Assessment
             </div>
-            <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-6 text-balance">
-              Accurate Pain Assessment for Every Child
+            <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4 text-balance">
+              PediPain360
             </h1>
-            <p className="text-xl text-muted-foreground mb-8 text-balance">
+            <p className="text-xl text-primary font-medium mb-6">
+              All-in-One Pediatric Pain Assessment and Management Hub
+            </p>
+            <p className="text-lg text-muted-foreground mb-8 text-balance">
               A comprehensive tool that helps healthcare providers select and use 
               age-appropriate pain measurement scales for pediatric patients from neonates to adolescents.
             </p>
@@ -94,26 +98,26 @@ export default function Home() {
             <Card className="clinical-card">
               <CardHeader>
                 <div className="w-12 h-12 rounded-lg bg-blue-100 flex items-center justify-center mb-4">
-                  <Baby className="w-6 h-6 text-blue-600" />
+                  <Layers className="w-6 h-6 text-blue-600" />
                 </div>
-                <CardTitle>Age-Based Scale Selection</CardTitle>
+                <CardTitle>All Assessment Tools in One Place</CardTitle>
                 <CardDescription>
-                  Automatic recommendation of appropriate pain scales based on patient age and gestational status
+                  Access 6 validated pain scales designed for all pediatric age groups - from premature neonates to adolescents
                 </CardDescription>
               </CardHeader>
               <CardContent>
                 <ul className="space-y-2 text-sm text-muted-foreground">
                   <li className="flex items-center gap-2">
                     <div className="w-1.5 h-1.5 rounded-full bg-primary" />
-                    PIPP-R for neonates ≤48 weeks PMA
+                    PIPP-R, NIPS, FLACC, CHEOPS
                   </li>
                   <li className="flex items-center gap-2">
                     <div className="w-1.5 h-1.5 rounded-full bg-primary" />
-                    FLACC for 2 months - 7 years
+                    Wong-Baker FACES, VAS
                   </li>
                   <li className="flex items-center gap-2">
                     <div className="w-1.5 h-1.5 rounded-full bg-primary" />
-                    Wong-Baker FACES for 3+ years
+                    Behavioral & self-report scales
                   </li>
                 </ul>
               </CardContent>
@@ -122,26 +126,26 @@ export default function Home() {
             <Card className="clinical-card">
               <CardHeader>
                 <div className="w-12 h-12 rounded-lg bg-green-100 flex items-center justify-center mb-4">
-                  <Stethoscope className="w-6 h-6 text-green-600" />
+                  <Pill className="w-6 h-6 text-green-600" />
                 </div>
-                <CardTitle>Interactive Assessment</CardTitle>
+                <CardTitle>All Treatment & Recommendations in One Place</CardTitle>
                 <CardDescription>
-                  Visual scale representations with real-time scoring calculation and pain level interpretation
+                  Evidence-based pharmacological and non-pharmacological interventions with clinical guidelines
                 </CardDescription>
               </CardHeader>
               <CardContent>
                 <ul className="space-y-2 text-sm text-muted-foreground">
                   <li className="flex items-center gap-2">
                     <div className="w-1.5 h-1.5 rounded-full bg-green-600" />
-                    Visual faces for self-report scales
+                    WHO analgesic ladder guidance
                   </li>
                   <li className="flex items-center gap-2">
                     <div className="w-1.5 h-1.5 rounded-full bg-green-600" />
-                    Behavioral indicators for observation
+                    Age-specific medication dosing
                   </li>
                   <li className="flex items-center gap-2">
                     <div className="w-1.5 h-1.5 rounded-full bg-green-600" />
-                    Instant score calculation
+                    Non-pharmacological strategies
                   </li>
                 </ul>
               </CardContent>
@@ -150,26 +154,26 @@ export default function Home() {
             <Card className="clinical-card">
               <CardHeader>
                 <div className="w-12 h-12 rounded-lg bg-orange-100 flex items-center justify-center mb-4">
-                  <Heart className="w-6 h-6 text-orange-600" />
+                  <Zap className="w-6 h-6 text-orange-600" />
                 </div>
-                <CardTitle>Intervention Recommendations</CardTitle>
+                <CardTitle>Instant Calculation in One Place</CardTitle>
                 <CardDescription>
-                  Evidence-based pharmacological and non-pharmacological interventions tailored to age and pain level
+                  Real-time pain score calculation with automatic severity classification and treatment recommendations
                 </CardDescription>
               </CardHeader>
               <CardContent>
                 <ul className="space-y-2 text-sm text-muted-foreground">
                   <li className="flex items-center gap-2">
                     <div className="w-1.5 h-1.5 rounded-full bg-orange-600" />
-                    Medication dosing guidance
+                    Automatic score computation
                   </li>
                   <li className="flex items-center gap-2">
                     <div className="w-1.5 h-1.5 rounded-full bg-orange-600" />
-                    Non-pharmacological strategies
+                    Pain level classification
                   </li>
                   <li className="flex items-center gap-2">
                     <div className="w-1.5 h-1.5 rounded-full bg-orange-600" />
-                    WHO analgesic ladder
+                    Printable assessment reports
                   </li>
                 </ul>
               </CardContent>
