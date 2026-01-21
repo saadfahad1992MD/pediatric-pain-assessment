@@ -154,3 +154,9 @@
 
 - [x] Change "Pediatric Pain Assessment" to "All-in-One" in header (top left)
 - [x] Change "Pediatric Pain Assessment Tool" to "All-in-One" in footer (bottom left)
+
+
+## Bug Fix - Mobile Layout Issues
+
+- [x] Fix header overlap on mobile (Home button, logo, and print button overlapping)
+- [x] Fix intervention tabs overlap on mobile (Guidelines, Non-Pharm, Pharmacological tabs)
