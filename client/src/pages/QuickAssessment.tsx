@@ -14,6 +14,14 @@ import {
   type InterventionInfo
 } from "@shared/painScales";
 import {
+  CLINICAL_GUIDELINES,
+  AGE_SPECIFIC_GUIDELINES,
+  QUICK_REFERENCE,
+  getGuidelineForPainLevel,
+  type ClinicalGuideline,
+  type GuidelineSection
+} from "@shared/clinicalGuidelines";
+import {
   NON_OPIOID_MEDICATIONS,
   OPIOID_MEDICATIONS,
   TOPICAL_MEDICATIONS,
@@ -46,7 +54,17 @@ import {
   Droplets,
   Stethoscope,
   ShieldAlert,
-  Activity
+  Activity,
+  FileText,
+  Clock,
+  Target,
+  ArrowUpCircle,
+  Shield,
+  Zap,
+  Monitor,
+  Settings,
+  Layers,
+  ExternalLink
 } from "lucide-react";
 import { useMemo, useState } from "react";
 import { Link } from "wouter";
@@ -343,12 +361,187 @@ function MedicationCard({ medication }: { medication: MedicationInfo }) {
   );
 }
 
+// Guidelines Section Icon Mapper
+function getGuidelineIcon(iconName: string) {
+  const icons: Record<string, React.ComponentType<{ className?: string }>> = {
+    shield: Shield,
+    activity: Activity,
+    pill: Pill,
+    heart: Heart,
+    alert: AlertTriangle,
+    layers: Layers,
+    'arrow-up': ArrowUpCircle,
+    zap: Zap,
+    monitor: Monitor,
+    settings: Settings,
+    'alert-triangle': AlertTriangle,
+  };
+  return icons[iconName] || Info;
+}
+
+// Guidelines Content Component
+function GuidelinesContent({ 
+  painLevel, 
+  ageCategory 
+}: { 
+  painLevel: PainLevel; 
+  ageCategory: 'neonate' | 'infant' | 'toddler' | 'child' | 'adolescent';
+}) {
+  const guideline = getGuidelineForPainLevel(painLevel);
+  
+  // Map age category to age-specific guidelines
+  const ageGuidelineMap: Record<string, keyof typeof AGE_SPECIFIC_GUIDELINES> = {
+    neonate: 'neonate',
+    infant: 'infant',
+    toddler: 'toddler',
+    child: 'preschool',
+    adolescent: 'adolescent',
+  };
+  const ageGuideline = AGE_SPECIFIC_GUIDELINES[ageGuidelineMap[ageCategory]];
+  
+  return (
+    <div className="space-y-6">
+      {/* WHO Ladder Step */}
+      <div className="p-4 bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-lg">
+        <div className="flex items-center gap-3 mb-3">
+          <div className="w-10 h-10 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold text-lg">
+            {guideline.whoLadderStep}
+          </div>
+          <div>
+            <h3 className="font-semibold text-blue-900">WHO Analgesic Ladder - Step {guideline.whoLadderStep}</h3>
+            <p className="text-sm text-blue-700">{guideline.whoLadderDescription}</p>
+          </div>
+        </div>
+      </div>
+      
+      {/* Reassessment Timing */}
+      <div className="p-4 bg-amber-50 border border-amber-200 rounded-lg">
+        <div className="flex items-start gap-3">
+          <Clock className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
+          <div>
+            <h4 className="font-semibold text-amber-900 mb-1">Reassessment Timing</h4>
+            <p className="text-sm text-amber-800">{guideline.reassessmentTiming}</p>
+          </div>
+        </div>
+      </div>
+      
+      {/* Treatment Goals & Key Decision Points */}
+      <div className="grid md:grid-cols-2 gap-4">
+        <div className="p-4 bg-green-50 border border-green-200 rounded-lg">
+          <h4 className="font-semibold text-green-900 mb-3 flex items-center gap-2">
+            <Target className="w-4 h-4" />
+            Treatment Goals
+          </h4>
+          <ul className="space-y-2">
+            {guideline.treatmentGoals.map((goal, idx) => (
+              <li key={idx} className="text-sm text-green-800 flex items-start gap-2">
+                <Check className="w-4 h-4 text-green-600 shrink-0 mt-0.5" />
+                <span>{goal}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+        
+        <div className="p-4 bg-purple-50 border border-purple-200 rounded-lg">
+          <h4 className="font-semibold text-purple-900 mb-3 flex items-center gap-2">
+            <Lightbulb className="w-4 h-4" />
+            Key Decision Points
+          </h4>
+          <ul className="space-y-2">
+            {guideline.keyDecisionPoints.map((point, idx) => (
+              <li key={idx} className="text-sm text-purple-800 flex items-start gap-2">
+                <span className="text-purple-500 mt-1">•</span>
+                <span>{point}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+      
+      {/* Escalation Criteria */}
+      <div className="p-4 bg-red-50 border border-red-200 rounded-lg">
+        <h4 className="font-semibold text-red-900 mb-3 flex items-center gap-2">
+          <ArrowUpCircle className="w-4 h-4" />
+          When to Escalate
+        </h4>
+        <ul className="space-y-2">
+          {guideline.escalationCriteria.map((criteria, idx) => (
+            <li key={idx} className="text-sm text-red-800 flex items-start gap-2">
+              <AlertTriangle className="w-4 h-4 text-red-500 shrink-0 mt-0.5" />
+              <span>{criteria}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+      
+      {/* Guideline Sections */}
+      {guideline.sections.map((section, idx) => {
+        const Icon = getGuidelineIcon(section.icon);
+        return (
+          <div key={idx} className="border rounded-lg bg-white overflow-hidden">
+            <div className="p-4 bg-muted/30 border-b">
+              <h4 className="font-semibold flex items-center gap-2">
+                <Icon className="w-4 h-4 text-primary" />
+                {section.title}
+              </h4>
+            </div>
+            <div className="p-4">
+              <ul className="space-y-2">
+                {section.content.map((item, itemIdx) => (
+                  <li key={itemIdx} className="text-sm flex items-start gap-2">
+                    <span className="text-primary mt-1">•</span>
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        );
+      })}
+      
+      {/* Age-Specific Considerations */}
+      <div className="border rounded-lg bg-white overflow-hidden">
+        <div className="p-4 bg-sky-50 border-b">
+          <h4 className="font-semibold flex items-center gap-2 text-sky-900">
+            <Info className="w-4 h-4" />
+            {ageGuideline.title} - Special Considerations
+          </h4>
+        </div>
+        <div className="p-4">
+          <ul className="space-y-2">
+            {ageGuideline.considerations.map((consideration, idx) => (
+              <li key={idx} className="text-sm flex items-start gap-2">
+                <span className="text-sky-500 mt-1">•</span>
+                <span>{consideration}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+      
+      {/* Link to Full Resources */}
+      <div className="p-4 bg-muted/30 rounded-lg text-center">
+        <p className="text-sm text-muted-foreground mb-3">
+          For comprehensive clinical guidelines, evidence sources, and educational materials:
+        </p>
+        <Link href="/resources">
+          <Button variant="outline" className="gap-2">
+            <BookOpen className="w-4 h-4" />
+            View Full Resources
+            <ExternalLink className="w-3 h-3" />
+          </Button>
+        </Link>
+      </div>
+    </div>
+  );
+}
+
 export default function QuickAssessment() {
   // Form state
   const [selectedScale, setSelectedScale] = useState<PainScaleType | null>(null);
   const [scoreData, setScoreData] = useState<Record<string, number>>({});
   const [selectedAgeCategory, setSelectedAgeCategory] = useState<'neonate' | 'infant' | 'toddler' | 'child' | 'adolescent'>('child');
-  const [interventionTab, setInterventionTab] = useState<'non_pharmacological' | 'pharmacological'>('non_pharmacological');
+  const [interventionTab, setInterventionTab] = useState<'guidelines' | 'non_pharmacological' | 'pharmacological'>('guidelines');
   
   // Get scale info
   const scaleInfo = selectedScale ? PAIN_SCALES[selectedScale] : null;
@@ -770,16 +963,25 @@ export default function QuickAssessment() {
               
               {/* Main Treatment Tabs */}
               <Tabs value={interventionTab} onValueChange={(v) => setInterventionTab(v as typeof interventionTab)}>
-                <TabsList className="grid w-full grid-cols-2 mb-4">
+                <TabsList className="grid w-full grid-cols-3 mb-4">
+                  <TabsTrigger value="guidelines" className="gap-2">
+                    <FileText className="w-4 h-4" />
+                    Guidelines
+                  </TabsTrigger>
                   <TabsTrigger value="non_pharmacological" className="gap-2">
                     <Hand className="w-4 h-4" />
-                    Non-Pharmacological
+                    Non-Pharm
                   </TabsTrigger>
                   <TabsTrigger value="pharmacological" className="gap-2">
                     <Pill className="w-4 h-4" />
                     Pharmacological
                   </TabsTrigger>
                 </TabsList>
+                
+                {/* Guidelines Tab */}
+                <TabsContent value="guidelines">
+                  <GuidelinesContent painLevel={painLevel} ageCategory={selectedAgeCategory} />
+                </TabsContent>
                 
                 {/* Non-Pharmacological Tab */}
                 <TabsContent value="non_pharmacological">

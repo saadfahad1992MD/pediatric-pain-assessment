@@ -124,3 +124,13 @@
 - [x] Replace LinkedIn icon with LinkedIn text logo style
 - [x] Make Dr. Saad Almodameg name clickable with LinkedIn link
 - [x] Change name color to blue
+
+
+## Feature - Clinical Guidelines Tab in Assessment Results
+
+- [x] Create guidelines data structure with pain-level specific content
+- [x] Add Guidelines tab to assessment results alongside Non-Pharmacological and Pharmacological tabs
+- [x] Include WHO analgesic ladder recommendation based on pain level
+- [x] Add reassessment timing guidance
+- [x] Add key clinical decision points
+- [x] Add links to full guidelines in Resources page
