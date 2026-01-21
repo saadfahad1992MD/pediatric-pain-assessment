@@ -25,22 +25,22 @@ export default function Home() {
 
       {/* Header */}
       <header className="border-b border-border bg-card/80 backdrop-blur-sm sticky top-0 z-50">
-        <div className="container flex items-center justify-between h-16">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
-              <Heart className="w-6 h-6 text-primary" />
+        <div className="container flex items-center justify-between h-14 sm:h-16 px-3 sm:px-4">
+          <div className="flex items-center gap-2 sm:gap-3 min-w-0">
+            <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
+              <Heart className="w-5 h-5 sm:w-6 sm:h-6 text-primary" />
             </div>
-            <div>
-              <h1 className="font-semibold text-lg text-foreground">PediPain360</h1>
-              <p className="text-xs text-muted-foreground">All-in-One</p>
+            <div className="min-w-0">
+              <h1 className="font-semibold text-base sm:text-lg text-foreground truncate">PediPain360</h1>
+              <p className="text-xs text-muted-foreground hidden xs:block">All-in-One</p>
             </div>
           </div>
-          <nav className="flex items-center gap-4">
+          <nav className="flex items-center gap-1 sm:gap-4 shrink-0">
             <Link href="/assessment/new">
-              <Button variant="ghost">New Assessment</Button>
+              <Button variant="ghost" size="sm" className="text-xs sm:text-sm px-2 sm:px-4">New Assessment</Button>
             </Link>
             <Link href="/resources">
-              <Button variant="ghost">Resources</Button>
+              <Button variant="ghost" size="sm" className="text-xs sm:text-sm px-2 sm:px-4">Resources</Button>
             </Link>
           </nav>
         </div>

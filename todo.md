@@ -160,3 +160,8 @@
 
 - [x] Fix header overlap on mobile (Home button, logo, and print button overlapping)
 - [x] Fix intervention tabs overlap on mobile (Guidelines, Non-Pharm, Pharmacological tabs)
+
+
+## Bug Fix - Home Page Mobile Header
+
+- [x] Fix Resources text being cut off on mobile in Home page header
