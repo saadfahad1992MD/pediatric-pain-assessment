@@ -185,16 +185,19 @@ export default function Home() {
           <h2 className="text-2xl font-bold text-center mb-8">Validated Pain Scales</h2>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
             {[
-              { name: "PIPP-R", age: "Neonates" },
-              { name: "NIPS", age: "Infants <1yr" },
-              { name: "FLACC", age: "2mo - 7yr" },
-              { name: "CHEOPS", age: "1-7yr Post-op" },
-              { name: "Wong-Baker", age: "3+ years" },
-              { name: "VAS", age: "8+ years" },
+              { name: "PIPP-R", age: "Neonates", gradient: "from-pink-500 to-rose-500" },
+              { name: "NIPS", age: "Infants <1yr", gradient: "from-purple-500 to-violet-500" },
+              { name: "FLACC", age: "2mo - 7yr", gradient: "from-blue-500 to-cyan-500" },
+              { name: "CHEOPS", age: "1-7yr Post-op", gradient: "from-teal-500 to-emerald-500" },
+              { name: "Wong-Baker", age: "3+ years", gradient: "from-amber-500 to-orange-500" },
+              { name: "VAS", age: "8+ years", gradient: "from-red-500 to-pink-500" },
             ].map((scale) => (
-              <div key={scale.name} className="bg-card rounded-lg p-4 text-center border border-border">
-                <p className="font-semibold text-foreground">{scale.name}</p>
-                <p className="text-xs text-muted-foreground">{scale.age}</p>
+              <div 
+                key={scale.name} 
+                className={`bg-gradient-to-br ${scale.gradient} rounded-xl p-5 text-center shadow-lg hover:shadow-xl transition-all hover:scale-105 cursor-pointer`}
+              >
+                <p className="font-bold text-white text-lg">{scale.name}</p>
+                <p className="text-sm text-white/90">{scale.age}</p>
               </div>
             ))}
           </div>

@@ -94,3 +94,8 @@
 - [x] Add footer with "Developed by Dr.Saad Almodameg" and LinkedIn link
 - [x] Add disclaimer about site being under review/test version
 - [x] Rename website from PediPain to PediPain360
+
+
+## UI Fix - Restore Colorful Pain Scale Cards
+
+- [x] Restore colorful gradient backgrounds for Validated Pain Scales section on Home page
