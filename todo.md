@@ -172,3 +172,9 @@
 - [x] Remove New Assessment button from Home page header (already available in hero section)
 
 - [x] Show All-in-One tagline on mobile (was hidden on small screens)
+
+
+## Bug Fix - Resources Page Header
+
+- [x] Remove New Assessment from Resources page header (same as Home page)
+- [x] Fix mobile layout to show full PediPain360 and All-in-One
