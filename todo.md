@@ -81,3 +81,16 @@
 - [x] Include contraindications and safety warnings
 - [x] Add medication-specific precautions and monitoring requirements
 - [x] Organize by pain severity (mild, moderate, severe)
+
+
+## User Modifications - January 2026
+
+- [x] Remove assessment history and tracking features
+- [x] Remove patient data management
+- [x] Keep only New Assessment and Resources
+- [x] Change "Learn More" to "Resources" on main page
+- [x] Replace Wong-Baker FACES with original validated faces from wongbakerfaces.org
+- [x] Reorder Resources tabs: Guidelines, Pain Scales, Interventions
+- [x] Add footer with "Developed by Dr.Saad Almodameg" and LinkedIn link
+- [x] Add disclaimer about site being under review/test version
+- [x] Rename website from PediPain to PediPain360

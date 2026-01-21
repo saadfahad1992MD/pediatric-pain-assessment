@@ -46,48 +46,128 @@ import {
   Droplets,
   Stethoscope,
   ShieldAlert,
-  Activity
+  Activity,
+  Linkedin
 } from "lucide-react";
 import { useMemo, useState } from "react";
 import { Link } from "wouter";
 
-// Wong-Baker FACES SVG components
-const FaceSVG = ({ score, selected, onClick }: { score: number; selected: boolean; onClick: () => void }) => {
-  const faces: Record<number, { color: string; expression: string }> = {
-    0: { color: '#22c55e', expression: 'M 30 45 Q 50 60 70 45' },
-    2: { color: '#84cc16', expression: 'M 30 48 Q 50 55 70 48' },
-    4: { color: '#eab308', expression: 'M 30 50 L 70 50' },
-    6: { color: '#f97316', expression: 'M 30 55 Q 50 48 70 55' },
-    8: { color: '#ef4444', expression: 'M 30 58 Q 50 45 70 58' },
-    10: { color: '#dc2626', expression: 'M 30 60 Q 50 42 70 60' },
+// Original Wong-Baker FACES SVG components - matching the official validated design
+const WongBakerFace = ({ score, selected, onClick }: { score: number; selected: boolean; onClick: () => void }) => {
+  const labels: Record<number, string> = {
+    0: 'No Hurt',
+    2: 'Hurts Little Bit',
+    4: 'Hurts Little More',
+    6: 'Hurts Even More',
+    8: 'Hurts Whole Lot',
+    10: 'Hurts Worst',
   };
   
-  const face = faces[score] || faces[0];
+  // SVG paths for each face matching the official Wong-Baker FACES design
+  const renderFace = (score: number) => {
+    const strokeColor = "#1e3a5f";
+    const strokeWidth = 2;
+    
+    switch(score) {
+      case 0: // Happy smiling face
+        return (
+          <svg viewBox="0 0 100 100" className="w-16 h-16 md:w-20 md:h-20">
+            <circle cx="50" cy="50" r="45" fill="none" stroke={strokeColor} strokeWidth={strokeWidth} />
+            {/* Eyes with glasses look */}
+            <circle cx="35" cy="40" r="8" fill="none" stroke={strokeColor} strokeWidth={strokeWidth} />
+            <circle cx="65" cy="40" r="8" fill="none" stroke={strokeColor} strokeWidth={strokeWidth} />
+            <circle cx="35" cy="40" r="3" fill={strokeColor} />
+            <circle cx="65" cy="40" r="3" fill={strokeColor} />
+            {/* Big smile */}
+            <path d="M 25 55 Q 50 80 75 55" fill="none" stroke={strokeColor} strokeWidth={strokeWidth} strokeLinecap="round" />
+          </svg>
+        );
+      case 2: // Slight smile
+        return (
+          <svg viewBox="0 0 100 100" className="w-16 h-16 md:w-20 md:h-20">
+            <circle cx="50" cy="50" r="45" fill="none" stroke={strokeColor} strokeWidth={strokeWidth} />
+            <circle cx="35" cy="40" r="8" fill="none" stroke={strokeColor} strokeWidth={strokeWidth} />
+            <circle cx="65" cy="40" r="8" fill="none" stroke={strokeColor} strokeWidth={strokeWidth} />
+            <circle cx="35" cy="40" r="3" fill={strokeColor} />
+            <circle cx="65" cy="40" r="3" fill={strokeColor} />
+            {/* Smaller smile */}
+            <path d="M 30 58 Q 50 72 70 58" fill="none" stroke={strokeColor} strokeWidth={strokeWidth} strokeLinecap="round" />
+          </svg>
+        );
+      case 4: // Neutral/slight concern
+        return (
+          <svg viewBox="0 0 100 100" className="w-16 h-16 md:w-20 md:h-20">
+            <circle cx="50" cy="50" r="45" fill="none" stroke={strokeColor} strokeWidth={strokeWidth} />
+            <circle cx="35" cy="40" r="8" fill="none" stroke={strokeColor} strokeWidth={strokeWidth} />
+            <circle cx="65" cy="40" r="8" fill="none" stroke={strokeColor} strokeWidth={strokeWidth} />
+            <circle cx="35" cy="40" r="3" fill={strokeColor} />
+            <circle cx="65" cy="40" r="3" fill={strokeColor} />
+            {/* Straight/slightly down mouth */}
+            <path d="M 32 62 Q 50 65 68 62" fill="none" stroke={strokeColor} strokeWidth={strokeWidth} strokeLinecap="round" />
+          </svg>
+        );
+      case 6: // Frown
+        return (
+          <svg viewBox="0 0 100 100" className="w-16 h-16 md:w-20 md:h-20">
+            <circle cx="50" cy="50" r="45" fill="none" stroke={strokeColor} strokeWidth={strokeWidth} />
+            <circle cx="35" cy="40" r="8" fill="none" stroke={strokeColor} strokeWidth={strokeWidth} />
+            <circle cx="65" cy="40" r="8" fill="none" stroke={strokeColor} strokeWidth={strokeWidth} />
+            <circle cx="35" cy="40" r="3" fill={strokeColor} />
+            <circle cx="65" cy="40" r="3" fill={strokeColor} />
+            {/* Frown */}
+            <path d="M 30 68 Q 50 58 70 68" fill="none" stroke={strokeColor} strokeWidth={strokeWidth} strokeLinecap="round" />
+          </svg>
+        );
+      case 8: // Sad with eyebrows
+        return (
+          <svg viewBox="0 0 100 100" className="w-16 h-16 md:w-20 md:h-20">
+            <circle cx="50" cy="50" r="45" fill="none" stroke={strokeColor} strokeWidth={strokeWidth} />
+            {/* Worried eyebrows */}
+            <path d="M 27 30 L 43 35" fill="none" stroke={strokeColor} strokeWidth={strokeWidth} strokeLinecap="round" />
+            <path d="M 73 30 L 57 35" fill="none" stroke={strokeColor} strokeWidth={strokeWidth} strokeLinecap="round" />
+            <circle cx="35" cy="42" r="8" fill="none" stroke={strokeColor} strokeWidth={strokeWidth} />
+            <circle cx="65" cy="42" r="8" fill="none" stroke={strokeColor} strokeWidth={strokeWidth} />
+            <circle cx="35" cy="42" r="3" fill={strokeColor} />
+            <circle cx="65" cy="42" r="3" fill={strokeColor} />
+            {/* Bigger frown */}
+            <path d="M 28 72 Q 50 55 72 72" fill="none" stroke={strokeColor} strokeWidth={strokeWidth} strokeLinecap="round" />
+          </svg>
+        );
+      case 10: // Crying face
+        return (
+          <svg viewBox="0 0 100 100" className="w-16 h-16 md:w-20 md:h-20">
+            <circle cx="50" cy="50" r="45" fill="none" stroke={strokeColor} strokeWidth={strokeWidth} />
+            {/* Worried eyebrows */}
+            <path d="M 27 28 L 43 33" fill="none" stroke={strokeColor} strokeWidth={strokeWidth} strokeLinecap="round" />
+            <path d="M 73 28 L 57 33" fill="none" stroke={strokeColor} strokeWidth={strokeWidth} strokeLinecap="round" />
+            <circle cx="35" cy="40" r="8" fill="none" stroke={strokeColor} strokeWidth={strokeWidth} />
+            <circle cx="65" cy="40" r="8" fill="none" stroke={strokeColor} strokeWidth={strokeWidth} />
+            <circle cx="35" cy="40" r="3" fill={strokeColor} />
+            <circle cx="65" cy="40" r="3" fill={strokeColor} />
+            {/* Tears */}
+            <ellipse cx="25" cy="55" rx="4" ry="8" fill="#60a5fa" />
+            <ellipse cx="75" cy="55" rx="4" ry="8" fill="#60a5fa" />
+            {/* Open crying mouth */}
+            <ellipse cx="50" cy="70" rx="12" ry="8" fill="none" stroke={strokeColor} strokeWidth={strokeWidth} />
+          </svg>
+        );
+      default:
+        return null;
+    }
+  };
   
   return (
     <button
       onClick={onClick}
-      className={`flex flex-col items-center p-2 rounded-lg border-2 transition-all ${
+      className={`flex flex-col items-center p-3 rounded-lg border-2 transition-all ${
         selected 
-          ? 'border-primary bg-primary/10 scale-105' 
-          : 'border-transparent hover:border-primary/30 hover:bg-muted/50'
+          ? 'border-primary bg-primary/10 scale-105 shadow-md' 
+          : 'border-gray-200 hover:border-primary/50 hover:bg-muted/50'
       }`}
     >
-      <svg viewBox="0 0 100 100" className="w-14 h-14 md:w-20 md:h-20">
-        <circle cx="50" cy="50" r="45" fill={face.color} />
-        <circle cx="35" cy="35" r="5" fill="white" />
-        <circle cx="65" cy="35" r="5" fill="white" />
-        <circle cx="35" cy="35" r="2" fill="black" />
-        <circle cx="65" cy="35" r="2" fill="black" />
-        <path d={face.expression} stroke="white" strokeWidth="4" fill="none" strokeLinecap="round" />
-        {score === 10 && (
-          <>
-            <ellipse cx="30" cy="45" rx="3" ry="6" fill="#60a5fa" />
-            <ellipse cx="70" cy="45" rx="3" ry="6" fill="#60a5fa" />
-          </>
-        )}
-      </svg>
-      <span className="text-sm font-bold mt-1">{score}</span>
+      {renderFace(score)}
+      <span className="text-xl font-bold mt-2">{score}</span>
+      <span className="text-xs text-muted-foreground text-center leading-tight mt-1">{labels[score]}</span>
     </button>
   );
 };
@@ -284,17 +364,10 @@ function MedicationCard({ medication }: { medication: MedicationInfo }) {
             </p>
           </div>
           
-          {/* Black Box Warning */}
-          {medication.blackBoxWarning && (
-            <div className="bg-red-100 border border-red-300 p-3 rounded-lg">
-              <p className="text-sm text-red-800 font-medium">{medication.blackBoxWarning}</p>
-            </div>
-          )}
-          
           {/* Dosing Table */}
           <div>
             <h4 className="text-sm font-semibold flex items-center gap-2 mb-2">
-              <Syringe className="w-4 h-4 text-primary" />
+              <Pill className="w-4 h-4 text-primary" />
               Dosing
             </h4>
             <div className="overflow-x-auto">
@@ -304,45 +377,28 @@ function MedicationCard({ medication }: { medication: MedicationInfo }) {
                     <th className="text-left p-2 border">Route</th>
                     <th className="text-left p-2 border">Dose</th>
                     <th className="text-left p-2 border">Frequency</th>
-                    <th className="text-left p-2 border">Max/Notes</th>
+                    <th className="text-left p-2 border">Max</th>
                   </tr>
                 </thead>
                 <tbody>
                   {medication.dosing.map((dose, idx) => (
-                    <tr key={idx} className="border-b">
+                    <tr key={idx}>
                       <td className="p-2 border font-medium">{dose.route}</td>
                       <td className="p-2 border">{dose.dose}</td>
                       <td className="p-2 border">{dose.frequency}</td>
-                      <td className="p-2 border text-muted-foreground">
-                        {dose.maxDose && <span className="block">{dose.maxDose}</span>}
-                        {dose.notes && <span className="text-xs">{dose.notes}</span>}
-                      </td>
+                      <td className="p-2 border">{dose.maxDose || '-'}</td>
                     </tr>
                   ))}
                 </tbody>
               </table>
             </div>
+            {medication.dosing[0]?.notes && (
+              <p className="text-xs text-muted-foreground mt-2 italic">{medication.dosing[0].notes}</p>
+            )}
           </div>
           
-          {/* Indications */}
-          {medication.indications.length > 0 && (
-            <div>
-              <h4 className="text-sm font-semibold flex items-center gap-2 mb-2">
-                <Check className="w-4 h-4 text-green-600" />
-                Indications
-              </h4>
-              <div className="flex flex-wrap gap-1">
-                {medication.indications.map((indication, idx) => (
-                  <Badge key={idx} variant="outline" className="text-xs bg-green-50 text-green-800 border-green-200">
-                    {indication}
-                  </Badge>
-                ))}
-              </div>
-            </div>
-          )}
-          
           {/* Contraindications */}
-          {medication.contraindications.length > 0 && (
+          {medication.contraindications && medication.contraindications.length > 0 && (
             <div className="bg-red-50 p-3 rounded-lg">
               <h4 className="text-sm font-semibold flex items-center gap-2 mb-2 text-red-800">
                 <AlertTriangle className="w-4 h-4" />
@@ -360,7 +416,7 @@ function MedicationCard({ medication }: { medication: MedicationInfo }) {
           )}
           
           {/* Side Effects */}
-          {medication.sideEffects.length > 0 && (
+          {medication.sideEffects && medication.sideEffects.length > 0 && (
             <div>
               <h4 className="text-sm font-semibold flex items-center gap-2 mb-2">
                 <Info className="w-4 h-4 text-amber-500" />
@@ -368,29 +424,11 @@ function MedicationCard({ medication }: { medication: MedicationInfo }) {
               </h4>
               <div className="flex flex-wrap gap-1">
                 {medication.sideEffects.map((effect, idx) => (
-                  <Badge key={idx} variant="outline" className="text-xs bg-amber-50 text-amber-800 border-amber-200">
+                  <Badge key={idx} variant="outline" className="text-xs">
                     {effect}
                   </Badge>
                 ))}
               </div>
-            </div>
-          )}
-          
-          {/* Precautions */}
-          {medication.precautions.length > 0 && (
-            <div>
-              <h4 className="text-sm font-semibold flex items-center gap-2 mb-2">
-                <Lightbulb className="w-4 h-4 text-blue-500" />
-                Precautions
-              </h4>
-              <ul className="text-sm space-y-1">
-                {medication.precautions.map((precaution, idx) => (
-                  <li key={idx} className="flex items-start gap-2">
-                    <span className="text-blue-500 mt-1">•</span>
-                    <span>{precaution}</span>
-                  </li>
-                ))}
-              </ul>
             </div>
           )}
           
@@ -486,7 +524,6 @@ export default function QuickAssessment() {
     return medications.filter(med => {
       if (!med.ageRestrictions) return true;
       if (med.ageRestrictions.includes('NOT recommended')) {
-        // Codeine and tramadol - not for <12
         return ageInYears >= 12;
       }
       const minAge = parseInt(med.ageRestrictions.match(/≥(\d+)/)?.[1] || '0');
@@ -560,25 +597,35 @@ export default function QuickAssessment() {
   ];
   
   return (
-    <div className="min-h-screen bg-gradient-to-b from-sky-50 to-white">
+    <div className="min-h-screen flex flex-col bg-gradient-to-b from-sky-50 to-white">
+      {/* Disclaimer Banner */}
+      <div className="bg-amber-50 border-b border-amber-200 px-4 py-2 print:hidden">
+        <div className="container flex items-center justify-center gap-2 text-amber-800 text-sm">
+          <AlertTriangle className="w-4 h-4" />
+          <span><strong>Disclaimer:</strong> This site is currently under review. This is a test version for evaluation purposes only.</span>
+        </div>
+      </div>
+
       {/* Header */}
       <header className="bg-white border-b border-border/50 sticky top-0 z-10 print:hidden">
         <div className="container py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
               <Link href="/">
-                <Button variant="ghost" size="sm" className="gap-2">
-                  <ArrowLeft className="w-4 h-4" />
-                  Back
-                </Button>
+                <div className="flex items-center gap-2 cursor-pointer">
+                  <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
+                    <Heart className="w-5 h-5 text-primary" />
+                  </div>
+                  <span className="font-semibold text-lg">PediPain360</span>
+                </div>
               </Link>
               <div className="h-6 w-px bg-border" />
-              <div className="flex items-center gap-2">
-                <Heart className="w-5 h-5 text-primary" />
-                <span className="font-semibold text-lg">Pain Assessment</span>
-              </div>
+              <span className="text-muted-foreground">Pain Assessment</span>
             </div>
             <div className="flex items-center gap-2">
+              <Link href="/resources">
+                <Button variant="ghost" size="sm">Resources</Button>
+              </Link>
               {isAssessmentComplete && (
                 <Button variant="outline" size="sm" onClick={handlePrint} className="gap-2">
                   <Printer className="w-4 h-4" />
@@ -594,34 +641,48 @@ export default function QuickAssessment() {
         </div>
       </header>
       
-      <main className="container py-8 max-w-4xl">
+      <main className="flex-1 container py-8 max-w-4xl">
         {/* Scale Selection */}
         <Card className="mb-6">
           <CardHeader className="pb-3">
-            <CardTitle className="text-lg">Select Pain Scale</CardTitle>
-            <CardDescription>Choose the appropriate scale based on patient age</CardDescription>
+            <CardTitle className="text-lg">Select Pain Assessment Scale</CardTitle>
+            <CardDescription>Choose the appropriate scale based on patient age and clinical context</CardDescription>
           </CardHeader>
           <CardContent>
-            <Select 
-              value={selectedScale || ''} 
+            <Select
+              value={selectedScale || ''}
               onValueChange={(value) => handleScaleChange(value as PainScaleType)}
             >
-              <SelectTrigger className="w-full text-base">
+              <SelectTrigger className="w-full">
                 <SelectValue placeholder="Select a pain scale..." />
               </SelectTrigger>
               <SelectContent>
-                {scaleOptions.map(option => (
-                  <SelectItem key={option.value} value={option.value} className="text-base py-3">
+                {scaleOptions.map((option) => (
+                  <SelectItem key={option.value} value={option.value}>
                     {option.label}
                   </SelectItem>
                 ))}
               </SelectContent>
             </Select>
+            
             {scaleInfo && (
-              <p className="text-sm text-muted-foreground mt-3 flex items-start gap-2">
-                <Info className="w-4 h-4 mt-0.5 shrink-0" />
-                {scaleInfo.description}
-              </p>
+              <div className="mt-4 p-4 bg-muted/50 rounded-lg">
+                <p className="text-sm text-muted-foreground">{scaleInfo.description}</p>
+                <div className="flex flex-wrap gap-4 mt-3 text-sm">
+                  <span className="flex items-center gap-1">
+                    <Info className="w-4 h-4 text-primary" />
+                    Age: {scaleInfo.ageRange}
+                  </span>
+                  <span className="flex items-center gap-1">
+                    <Info className="w-4 h-4 text-primary" />
+                    Max Score: {scaleInfo.maxScore}
+                  </span>
+                  <span className="flex items-center gap-1">
+                    <Info className="w-4 h-4 text-primary" />
+                    Type: {scaleInfo.type === 'self_report' ? 'Self-Report' : 'Behavioral Observation'}
+                  </span>
+                </div>
+              </div>
             )}
           </CardContent>
         </Card>
@@ -634,16 +695,16 @@ export default function QuickAssessment() {
               <CardDescription>{scaleInfo.fullName}</CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
-              {/* Wong-Baker FACES special rendering */}
+              {/* Wong-Baker FACES special rendering with original validated faces */}
               {selectedScale === 'wong_baker' ? (
                 <div className="space-y-4">
                   <div className="bg-muted/50 p-6 rounded-xl">
                     <p className="text-base font-medium mb-6 text-center">
                       "Point to the face that shows how much you hurt right now."
                     </p>
-                    <div className="flex flex-wrap justify-center gap-2 md:gap-4">
+                    <div className="flex flex-wrap justify-center gap-3 md:gap-4">
                       {[0, 2, 4, 6, 8, 10].map((score) => (
-                        <FaceSVG
+                        <WongBakerFace
                           key={score}
                           score={score}
                           selected={scoreData['pain_face'] === score}
@@ -651,10 +712,9 @@ export default function QuickAssessment() {
                         />
                       ))}
                     </div>
-                    <div className="flex justify-between text-sm text-muted-foreground mt-4 px-4">
-                      <span>No Hurt</span>
-                      <span>Hurts Worst</span>
-                    </div>
+                    <p className="text-xs text-center text-muted-foreground mt-4">
+                      Wong-Baker FACES® Pain Rating Scale - © 1983 Wong-Baker FACES Foundation. Used with permission.
+                    </p>
                   </div>
                 </div>
               ) : selectedScale === 'vas' ? (
@@ -751,7 +811,7 @@ export default function QuickAssessment() {
               {recommendedMedications.step && (
                 <div className="mt-4 pt-4 border-t border-current/20">
                   <p className={`text-sm ${painStyle.text}`}>
-                    <strong>WHO Analgesic Ladder:</strong> {recommendedMedications.step.name} — {recommendedMedications.step.description}
+                    <strong>WHO Analgesic Ladder:</strong> {recommendedMedications.step.name} - {recommendedMedications.step.description}
                   </p>
                 </div>
               )}
@@ -759,31 +819,31 @@ export default function QuickAssessment() {
           </Card>
         )}
         
-        {/* Interventions Section - Combined Non-Pharmacological and Pharmacological */}
-        {isAssessmentComplete && painLevel !== 'none' && (
-          <Card>
+        {/* Treatment Recommendations */}
+        {isAssessmentComplete && (
+          <Card className="mb-6">
             <CardHeader className="pb-3">
               <CardTitle className="text-lg flex items-center gap-2">
                 <Heart className="w-5 h-5 text-primary" />
                 Treatment Recommendations
               </CardTitle>
               <CardDescription>
-                Evidence-based interventions from AAP, CPS, SickKids, Stanford, and WHO Guidelines
+                Evidence-based interventions for {painLevel} pain management
               </CardDescription>
             </CardHeader>
             <CardContent>
               {/* Age Category Selector */}
               <div className="mb-4">
                 <label className="text-sm font-medium mb-2 block">Patient Age Category</label>
-                <Select 
-                  value={selectedAgeCategory} 
+                <Select
+                  value={selectedAgeCategory}
                   onValueChange={(value) => setSelectedAgeCategory(value as typeof selectedAgeCategory)}
                 >
-                  <SelectTrigger className="w-full">
+                  <SelectTrigger className="w-full md:w-64">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    {ageCategoryOptions.map(option => (
+                    {ageCategoryOptions.map((option) => (
                       <SelectItem key={option.value} value={option.value}>
                         {option.label}
                       </SelectItem>
@@ -792,8 +852,8 @@ export default function QuickAssessment() {
                 </Select>
               </div>
               
-              {/* Main Tabs: Non-Pharmacological vs Pharmacological */}
-              <Tabs value={interventionTab} onValueChange={(v) => setInterventionTab(v as typeof interventionTab)} className="w-full">
+              {/* Main Treatment Tabs */}
+              <Tabs value={interventionTab} onValueChange={(v) => setInterventionTab(v as typeof interventionTab)}>
                 <TabsList className="grid w-full grid-cols-2 mb-4">
                   <TabsTrigger value="non_pharmacological" className="gap-2">
                     <Hand className="w-4 h-4" />
@@ -807,36 +867,14 @@ export default function QuickAssessment() {
                 
                 {/* Non-Pharmacological Tab */}
                 <TabsContent value="non_pharmacological">
-                  {/* Evidence Level Legend */}
-                  <div className="flex flex-wrap gap-3 mb-4 p-3 bg-muted/30 rounded-lg">
-                    <span className="text-sm font-medium">Evidence Levels:</span>
-                    <Badge variant="outline" className={`text-xs ${getEvidenceBadgeStyle('A')}`}>
-                      A - Strong (Cochrane/Meta-analysis)
-                    </Badge>
-                    <Badge variant="outline" className={`text-xs ${getEvidenceBadgeStyle('B')}`}>
-                      B - Good (RCTs/Guidelines)
-                    </Badge>
-                    <Badge variant="outline" className={`text-xs ${getEvidenceBadgeStyle('C')}`}>
-                      C - Limited (Clinical Practice)
-                    </Badge>
-                  </div>
-                  
-                  {/* Tabbed Interventions by Category */}
-                  <Tabs defaultValue="physical" className="w-full">
-                    <TabsList className="grid w-full grid-cols-2 md:grid-cols-4 h-auto">
+                  <Tabs defaultValue="physical">
+                    <TabsList className="flex flex-wrap h-auto gap-1 mb-4">
                       {(['physical', 'psychological', 'environmental', 'pharmacological_adjunct'] as InterventionCategory[]).map((category) => {
                         const Icon = getCategoryIcon(category);
-                        const count = interventionsByCategory[category].length;
                         return (
-                          <TabsTrigger 
-                            key={category} 
-                            value={category}
-                            className="flex flex-col gap-1 py-2 px-2 text-xs"
-                          >
-                            <Icon className="w-4 h-4" />
-                            <span className="hidden md:inline">{getCategoryLabel(category)}</span>
-                            <span className="md:hidden">{category === 'pharmacological_adjunct' ? 'Adjuncts' : getCategoryLabel(category).split(' ')[0]}</span>
-                            <span className="text-muted-foreground">({count})</span>
+                          <TabsTrigger key={category} value={category} className="gap-1 text-xs">
+                            <Icon className="w-3 h-3" />
+                            {getCategoryLabel(category)}
                           </TabsTrigger>
                         );
                       })}
@@ -845,12 +883,12 @@ export default function QuickAssessment() {
                     {(['physical', 'psychological', 'environmental', 'pharmacological_adjunct'] as InterventionCategory[]).map((category) => (
                       <TabsContent key={category} value={category} className="mt-4">
                         <div className="space-y-3">
-                          {interventionsByCategory[category].length === 0 ? (
+                          {interventionsByCategory[category]?.length === 0 ? (
                             <p className="text-sm text-muted-foreground text-center py-4">
                               No interventions available for this age category
                             </p>
                           ) : (
-                            interventionsByCategory[category].map((intervention) => (
+                            interventionsByCategory[category]?.map((intervention) => (
                               <InterventionCard key={intervention.id} intervention={intervention} />
                             ))
                           )}
@@ -862,38 +900,25 @@ export default function QuickAssessment() {
                 
                 {/* Pharmacological Tab */}
                 <TabsContent value="pharmacological">
-                  {/* Important Notice */}
-                  <div className="bg-amber-50 border border-amber-200 p-4 rounded-lg mb-4">
+                  {/* Disclaimer */}
+                  <div className="mb-4 p-4 bg-amber-50 border border-amber-200 rounded-lg">
                     <div className="flex items-start gap-3">
                       <AlertTriangle className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
                       <div className="text-sm text-amber-800">
-                        <p className="font-semibold mb-1">Clinical Decision Support</p>
-                        <p>Dosing information is for reference only. Always verify with current formulary, consider patient-specific factors (weight, renal/hepatic function, allergies), and follow institutional protocols. Consult pharmacy for complex cases.</p>
+                        <p className="font-semibold mb-1">Clinical Decision Support Disclaimer</p>
+                        <p>Medication dosing is for reference only. Always verify with current formulary, consider patient-specific factors (renal/hepatic function, allergies, drug interactions), and consult pharmacy or clinical guidelines before prescribing.</p>
                       </div>
                     </div>
                   </div>
                   
-                  {/* Medication Categories */}
-                  <Tabs defaultValue="non_opioid" className="w-full">
-                    <TabsList className="grid w-full grid-cols-3 md:grid-cols-5 h-auto mb-4">
-                      {medicationCategories.map(({ key, medications }) => {
+                  <Tabs defaultValue="non_opioid">
+                    <TabsList className="flex flex-wrap h-auto gap-1 mb-4">
+                      {medicationCategories.map(({ key }) => {
                         const Icon = getMedCategoryIcon(key);
-                        const filtered = filterMedicationsByAge(medications);
                         return (
-                          <TabsTrigger 
-                            key={key} 
-                            value={key}
-                            className="flex flex-col gap-1 py-2 px-1 text-xs"
-                          >
-                            <Icon className="w-4 h-4" />
-                            <span className="hidden md:inline text-xs">{getMedicationCategoryLabel(key)}</span>
-                            <span className="md:hidden text-xs">
-                              {key === 'non_opioid' ? 'Non-Opioid' : 
-                               key === 'topical_local' ? 'Topical' :
-                               key === 'intranasal' ? 'IN' :
-                               getMedicationCategoryLabel(key).split(' ')[0]}
-                            </span>
-                            <span className="text-muted-foreground">({filtered.length})</span>
+                          <TabsTrigger key={key} value={key} className="gap-1 text-xs">
+                            <Icon className="w-3 h-3" />
+                            {getMedicationCategoryLabel(key)}
                           </TabsTrigger>
                         );
                       })}
@@ -965,11 +990,46 @@ export default function QuickAssessment() {
         {/* Print-only content */}
         <div className="hidden print:block mt-8 text-sm text-muted-foreground">
           <p>Assessment Date: {new Date().toLocaleString()}</p>
-          <p>Generated by PediPain - Pediatric Pain Assessment Tool</p>
+          <p>Generated by PediPain360 - Pediatric Pain Assessment Tool</p>
           <p>Evidence sources: AAP 2024, Canadian Paediatric Society 2022, SickKids Comfort Promise, Stanford Pediatric Pain Reference, WHO Guidelines, Cochrane Reviews</p>
           <p className="mt-2 font-semibold">Disclaimer: Medication dosing is for reference only. Always verify with current formulary and consider patient-specific factors.</p>
         </div>
       </main>
+
+      {/* Footer */}
+      <footer className="mt-auto border-t border-border bg-white py-6 print:hidden">
+        <div className="container">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+            <div className="flex items-center gap-3">
+              <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
+                <Heart className="w-4 h-4 text-primary" />
+              </div>
+              <div>
+                <p className="font-semibold text-foreground">PediPain360</p>
+                <p className="text-xs text-muted-foreground">Pediatric Pain Assessment Tool</p>
+              </div>
+            </div>
+            
+            <div className="flex items-center gap-2 text-sm text-muted-foreground">
+              <span>Developed by</span>
+              <span className="font-medium text-foreground">Dr. Saad Almodameg</span>
+              <a 
+                href="https://www.linkedin.com/in/saad-almodameg-%D8%B3%D8%B9%D8%AF-%D8%A7%D9%84%D9%85%D8%AF%D9%8A%D9%85%D9%8A%D8%BA-5a0a43308"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-[#0A66C2] text-white hover:bg-[#004182] transition-colors"
+                aria-label="LinkedIn Profile"
+              >
+                <Linkedin className="w-4 h-4" />
+              </a>
+            </div>
+
+            <p className="text-xs text-muted-foreground">
+              © {new Date().getFullYear()} PediPain360. For educational purposes.
+            </p>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }

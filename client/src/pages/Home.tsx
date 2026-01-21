@@ -1,26 +1,28 @@
-import { useAuth } from "@/_core/hooks/useAuth";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { getLoginUrl } from "@/const";
 import { 
-  Activity, 
   Baby, 
   BookOpen, 
-  ChevronRight, 
   ClipboardList, 
   Heart, 
-  LineChart, 
   Shield,
   Stethoscope,
-  Users
+  AlertTriangle,
+  Linkedin
 } from "lucide-react";
 import { Link } from "wouter";
 
 export default function Home() {
-  const { user, loading, isAuthenticated } = useAuth();
-
   return (
     <div className="min-h-screen flex flex-col bg-background">
+      {/* Disclaimer Banner */}
+      <div className="bg-amber-50 border-b border-amber-200 px-4 py-2">
+        <div className="container flex items-center justify-center gap-2 text-amber-800 text-sm">
+          <AlertTriangle className="w-4 h-4" />
+          <span><strong>Disclaimer:</strong> This site is currently under review. This is a test version for evaluation purposes only.</span>
+        </div>
+      </div>
+
       {/* Header */}
       <header className="border-b border-border bg-card/80 backdrop-blur-sm sticky top-0 z-50">
         <div className="container flex items-center justify-between h-16">
@@ -29,28 +31,17 @@ export default function Home() {
               <Heart className="w-6 h-6 text-primary" />
             </div>
             <div>
-              <h1 className="font-semibold text-lg text-foreground">PediPain</h1>
+              <h1 className="font-semibold text-lg text-foreground">PediPain360</h1>
               <p className="text-xs text-muted-foreground">Pediatric Pain Assessment</p>
             </div>
           </div>
           <nav className="flex items-center gap-4">
-            {isAuthenticated ? (
-              <>
-                <Link href="/dashboard">
-                  <Button variant="ghost">Dashboard</Button>
-                </Link>
-                <Link href="/resources">
-                  <Button variant="ghost">Resources</Button>
-                </Link>
-                <span className="text-sm text-muted-foreground">
-                  Welcome, {user?.name || 'Provider'}
-                </span>
-              </>
-            ) : (
-              <a href={getLoginUrl()}>
-                <Button>Sign In</Button>
-              </a>
-            )}
+            <Link href="/assessment/new">
+              <Button variant="ghost">New Assessment</Button>
+            </Link>
+            <Link href="/resources">
+              <Button variant="ghost">Resources</Button>
+            </Link>
           </nav>
         </div>
       </header>
@@ -67,7 +58,7 @@ export default function Home() {
               Accurate Pain Assessment for Every Child
             </h1>
             <p className="text-xl text-muted-foreground mb-8 text-balance">
-              A comprehensive AI-powered tool that helps healthcare providers select and use 
+              A comprehensive tool that helps healthcare providers select and use 
               age-appropriate pain measurement scales for pediatric patients from neonates to adolescents.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -80,7 +71,7 @@ export default function Home() {
               <Link href="/resources">
                 <Button size="lg" variant="outline" className="gap-2">
                   <BookOpen className="w-5 h-5" />
-                  Learn More
+                  Resources
                 </Button>
               </Link>
             </div>
@@ -159,111 +150,27 @@ export default function Home() {
 
             <Card className="clinical-card">
               <CardHeader>
-                <div className="w-12 h-12 rounded-lg bg-purple-100 flex items-center justify-center mb-4">
-                  <LineChart className="w-6 h-6 text-purple-600" />
-                </div>
-                <CardTitle>History Tracking</CardTitle>
-                <CardDescription>
-                  Longitudinal monitoring with timestamps, scores, and contextual notes for trend analysis
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <ul className="space-y-2 text-sm text-muted-foreground">
-                  <li className="flex items-center gap-2">
-                    <div className="w-1.5 h-1.5 rounded-full bg-purple-600" />
-                    Assessment history timeline
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <div className="w-1.5 h-1.5 rounded-full bg-purple-600" />
-                    Pain trend visualization
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <div className="w-1.5 h-1.5 rounded-full bg-purple-600" />
-                    Clinical notes documentation
-                  </li>
-                </ul>
-              </CardContent>
-            </Card>
-
-            <Card className="clinical-card">
-              <CardHeader>
                 <div className="w-12 h-12 rounded-lg bg-orange-100 flex items-center justify-center mb-4">
                   <Heart className="w-6 h-6 text-orange-600" />
                 </div>
                 <CardTitle>Intervention Recommendations</CardTitle>
                 <CardDescription>
-                  Evidence-based non-pharmacological interventions tailored to age and pain level
+                  Evidence-based pharmacological and non-pharmacological interventions tailored to age and pain level
                 </CardDescription>
               </CardHeader>
               <CardContent>
                 <ul className="space-y-2 text-sm text-muted-foreground">
                   <li className="flex items-center gap-2">
                     <div className="w-1.5 h-1.5 rounded-full bg-orange-600" />
-                    Sucrose and skin-to-skin for neonates
+                    Medication dosing guidance
                   </li>
                   <li className="flex items-center gap-2">
                     <div className="w-1.5 h-1.5 rounded-full bg-orange-600" />
-                    Distraction techniques for children
+                    Non-pharmacological strategies
                   </li>
                   <li className="flex items-center gap-2">
                     <div className="w-1.5 h-1.5 rounded-full bg-orange-600" />
-                    Effectiveness tracking
-                  </li>
-                </ul>
-              </CardContent>
-            </Card>
-
-            <Card className="clinical-card">
-              <CardHeader>
-                <div className="w-12 h-12 rounded-lg bg-teal-100 flex items-center justify-center mb-4">
-                  <BookOpen className="w-6 h-6 text-teal-600" />
-                </div>
-                <CardTitle>Educational Resources</CardTitle>
-                <CardDescription>
-                  Comprehensive guides on each pain scale with usage instructions and interpretation guidelines
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <ul className="space-y-2 text-sm text-muted-foreground">
-                  <li className="flex items-center gap-2">
-                    <div className="w-1.5 h-1.5 rounded-full bg-teal-600" />
-                    Scale-specific instructions
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <div className="w-1.5 h-1.5 rounded-full bg-teal-600" />
-                    Scoring interpretation guides
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <div className="w-1.5 h-1.5 rounded-full bg-teal-600" />
-                    Clinical best practices
-                  </li>
-                </ul>
-              </CardContent>
-            </Card>
-
-            <Card className="clinical-card">
-              <CardHeader>
-                <div className="w-12 h-12 rounded-lg bg-pink-100 flex items-center justify-center mb-4">
-                  <Users className="w-6 h-6 text-pink-600" />
-                </div>
-                <CardTitle>Patient Management</CardTitle>
-                <CardDescription>
-                  Organize assessments by patient with export and print functionality for care coordination
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <ul className="space-y-2 text-sm text-muted-foreground">
-                  <li className="flex items-center gap-2">
-                    <div className="w-1.5 h-1.5 rounded-full bg-pink-600" />
-                    Patient profiles and history
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <div className="w-1.5 h-1.5 rounded-full bg-pink-600" />
-                    Export assessment reports
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <div className="w-1.5 h-1.5 rounded-full bg-pink-600" />
-                    Print-friendly formats
+                    WHO analgesic ladder
                   </li>
                 </ul>
               </CardContent>
@@ -272,84 +179,58 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Pain Scales Overview */}
-      <section className="py-20 px-4 bg-muted/30">
+      {/* Supported Scales Section */}
+      <section className="py-16 px-4 bg-muted/30">
         <div className="container">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-foreground mb-4">
-              Validated Pain Assessment Scales
-            </h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Our tool incorporates internationally recognized, evidence-based pain scales
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 max-w-5xl mx-auto">
+          <h2 className="text-2xl font-bold text-center mb-8">Validated Pain Scales</h2>
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
             {[
-              { name: 'PIPP-R', age: '≤48 weeks PMA', type: 'Behavioral', color: 'bg-blue-500' },
-              { name: 'NIPS', age: '0-12 months', type: 'Behavioral', color: 'bg-green-500' },
-              { name: 'FLACC', age: '2mo - 7 years', type: 'Behavioral', color: 'bg-purple-500' },
-              { name: 'CHEOPS', age: '1-7 years', type: 'Behavioral', color: 'bg-orange-500' },
-              { name: 'Wong-Baker', age: '3+ years', type: 'Self-Report', color: 'bg-pink-500' },
-              { name: 'VAS', age: '8+ years', type: 'Self-Report', color: 'bg-teal-500' },
+              { name: "PIPP-R", age: "Neonates" },
+              { name: "NIPS", age: "Infants <1yr" },
+              { name: "FLACC", age: "2mo - 7yr" },
+              { name: "CHEOPS", age: "1-7yr Post-op" },
+              { name: "Wong-Baker", age: "3+ years" },
+              { name: "VAS", age: "8+ years" },
             ].map((scale) => (
-              <div key={scale.name} className="flex items-center gap-4 p-4 bg-card rounded-lg border border-border">
-                <div className={`w-3 h-12 rounded-full ${scale.color}`} />
-                <div>
-                  <h3 className="font-semibold text-foreground">{scale.name}</h3>
-                  <p className="text-sm text-muted-foreground">{scale.age}</p>
-                  <span className="text-xs px-2 py-0.5 rounded-full bg-muted text-muted-foreground">
-                    {scale.type}
-                  </span>
-                </div>
+              <div key={scale.name} className="bg-card rounded-lg p-4 text-center border border-border">
+                <p className="font-semibold text-foreground">{scale.name}</p>
+                <p className="text-xs text-muted-foreground">{scale.age}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="py-20 px-4 bg-primary/5">
-        <div className="container">
-          <div className="max-w-2xl mx-auto text-center">
-            <h2 className="text-3xl font-bold text-foreground mb-4">
-              Ready to Improve Pain Assessment?
-            </h2>
-            <p className="text-lg text-muted-foreground mb-8">
-              Join healthcare providers using evidence-based tools for accurate pediatric pain assessment.
-            </p>
-            {isAuthenticated ? (
-              <Link href="/assessment/new">
-                <Button size="lg" className="gap-2">
-                  <ClipboardList className="w-5 h-5" />
-                  Start Your First Assessment
-                </Button>
-              </Link>
-            ) : (
-              <a href={getLoginUrl()}>
-                <Button size="lg" className="gap-2">
-                  Get Started Free
-                  <ChevronRight className="w-5 h-5" />
-                </Button>
-              </a>
-            )}
-          </div>
-        </div>
-      </section>
-
       {/* Footer */}
-      <footer className="py-8 px-4 border-t border-border bg-card">
+      <footer className="mt-auto border-t border-border bg-card py-8">
         <div className="container">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-            <div className="flex items-center gap-2">
-              <Heart className="w-5 h-5 text-primary" />
-              <span className="font-semibold">PediPain</span>
-              <span className="text-muted-foreground text-sm">
-                © {new Date().getFullYear()} All rights reserved
-              </span>
+            <div className="flex items-center gap-3">
+              <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
+                <Heart className="w-4 h-4 text-primary" />
+              </div>
+              <div>
+                <p className="font-semibold text-foreground">PediPain360</p>
+                <p className="text-xs text-muted-foreground">Pediatric Pain Assessment Tool</p>
+              </div>
             </div>
-            <p className="text-sm text-muted-foreground text-center">
-              Based on validated scales from ChildKind International and clinical best practices
+            
+            <div className="flex items-center gap-2 text-sm text-muted-foreground">
+              <span>Developed by</span>
+              <span className="font-medium text-foreground">Dr. Saad Almodameg</span>
+              <a 
+                href="https://www.linkedin.com/in/saad-almodameg-%D8%B3%D8%B9%D8%AF-%D8%A7%D9%84%D9%85%D8%AF%D9%8A%D9%85%D9%8A%D8%BA-5a0a43308"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-[#0A66C2] text-white hover:bg-[#004182] transition-colors"
+                aria-label="LinkedIn Profile"
+              >
+                <Linkedin className="w-4 h-4" />
+              </a>
+            </div>
+
+            <p className="text-xs text-muted-foreground">
+              © {new Date().getFullYear()} PediPain360. For educational purposes.
             </p>
           </div>
         </div>
