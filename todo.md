@@ -105,3 +105,9 @@
 
 - [x] Remove the Validated Pain Scales section from Home page
 - [x] Restored original design with colored vertical bars (user preference)
+
+
+## UI Fix - Replace Wong-Baker FACES with Original Image
+
+- [x] Copy user-provided Wong-Baker FACES image to public folder
+- [x] Update QuickAssessment.tsx to use the original line-drawing faces image

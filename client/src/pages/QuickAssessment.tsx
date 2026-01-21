@@ -52,124 +52,14 @@ import {
 import { useMemo, useState } from "react";
 import { Link } from "wouter";
 
-// Original Wong-Baker FACES SVG components - matching the official validated design
-const WongBakerFace = ({ score, selected, onClick }: { score: number; selected: boolean; onClick: () => void }) => {
-  const labels: Record<number, string> = {
-    0: 'No Hurt',
-    2: 'Hurts Little Bit',
-    4: 'Hurts Little More',
-    6: 'Hurts Even More',
-    8: 'Hurts Whole Lot',
-    10: 'Hurts Worst',
-  };
-  
-  // SVG paths for each face matching the official Wong-Baker FACES design
-  const renderFace = (score: number) => {
-    const strokeColor = "#1e3a5f";
-    const strokeWidth = 2;
-    
-    switch(score) {
-      case 0: // Happy smiling face
-        return (
-          <svg viewBox="0 0 100 100" className="w-16 h-16 md:w-20 md:h-20">
-            <circle cx="50" cy="50" r="45" fill="none" stroke={strokeColor} strokeWidth={strokeWidth} />
-            {/* Eyes with glasses look */}
-            <circle cx="35" cy="40" r="8" fill="none" stroke={strokeColor} strokeWidth={strokeWidth} />
-            <circle cx="65" cy="40" r="8" fill="none" stroke={strokeColor} strokeWidth={strokeWidth} />
-            <circle cx="35" cy="40" r="3" fill={strokeColor} />
-            <circle cx="65" cy="40" r="3" fill={strokeColor} />
-            {/* Big smile */}
-            <path d="M 25 55 Q 50 80 75 55" fill="none" stroke={strokeColor} strokeWidth={strokeWidth} strokeLinecap="round" />
-          </svg>
-        );
-      case 2: // Slight smile
-        return (
-          <svg viewBox="0 0 100 100" className="w-16 h-16 md:w-20 md:h-20">
-            <circle cx="50" cy="50" r="45" fill="none" stroke={strokeColor} strokeWidth={strokeWidth} />
-            <circle cx="35" cy="40" r="8" fill="none" stroke={strokeColor} strokeWidth={strokeWidth} />
-            <circle cx="65" cy="40" r="8" fill="none" stroke={strokeColor} strokeWidth={strokeWidth} />
-            <circle cx="35" cy="40" r="3" fill={strokeColor} />
-            <circle cx="65" cy="40" r="3" fill={strokeColor} />
-            {/* Smaller smile */}
-            <path d="M 30 58 Q 50 72 70 58" fill="none" stroke={strokeColor} strokeWidth={strokeWidth} strokeLinecap="round" />
-          </svg>
-        );
-      case 4: // Neutral/slight concern
-        return (
-          <svg viewBox="0 0 100 100" className="w-16 h-16 md:w-20 md:h-20">
-            <circle cx="50" cy="50" r="45" fill="none" stroke={strokeColor} strokeWidth={strokeWidth} />
-            <circle cx="35" cy="40" r="8" fill="none" stroke={strokeColor} strokeWidth={strokeWidth} />
-            <circle cx="65" cy="40" r="8" fill="none" stroke={strokeColor} strokeWidth={strokeWidth} />
-            <circle cx="35" cy="40" r="3" fill={strokeColor} />
-            <circle cx="65" cy="40" r="3" fill={strokeColor} />
-            {/* Straight/slightly down mouth */}
-            <path d="M 32 62 Q 50 65 68 62" fill="none" stroke={strokeColor} strokeWidth={strokeWidth} strokeLinecap="round" />
-          </svg>
-        );
-      case 6: // Frown
-        return (
-          <svg viewBox="0 0 100 100" className="w-16 h-16 md:w-20 md:h-20">
-            <circle cx="50" cy="50" r="45" fill="none" stroke={strokeColor} strokeWidth={strokeWidth} />
-            <circle cx="35" cy="40" r="8" fill="none" stroke={strokeColor} strokeWidth={strokeWidth} />
-            <circle cx="65" cy="40" r="8" fill="none" stroke={strokeColor} strokeWidth={strokeWidth} />
-            <circle cx="35" cy="40" r="3" fill={strokeColor} />
-            <circle cx="65" cy="40" r="3" fill={strokeColor} />
-            {/* Frown */}
-            <path d="M 30 68 Q 50 58 70 68" fill="none" stroke={strokeColor} strokeWidth={strokeWidth} strokeLinecap="round" />
-          </svg>
-        );
-      case 8: // Sad with eyebrows
-        return (
-          <svg viewBox="0 0 100 100" className="w-16 h-16 md:w-20 md:h-20">
-            <circle cx="50" cy="50" r="45" fill="none" stroke={strokeColor} strokeWidth={strokeWidth} />
-            {/* Worried eyebrows */}
-            <path d="M 27 30 L 43 35" fill="none" stroke={strokeColor} strokeWidth={strokeWidth} strokeLinecap="round" />
-            <path d="M 73 30 L 57 35" fill="none" stroke={strokeColor} strokeWidth={strokeWidth} strokeLinecap="round" />
-            <circle cx="35" cy="42" r="8" fill="none" stroke={strokeColor} strokeWidth={strokeWidth} />
-            <circle cx="65" cy="42" r="8" fill="none" stroke={strokeColor} strokeWidth={strokeWidth} />
-            <circle cx="35" cy="42" r="3" fill={strokeColor} />
-            <circle cx="65" cy="42" r="3" fill={strokeColor} />
-            {/* Bigger frown */}
-            <path d="M 28 72 Q 50 55 72 72" fill="none" stroke={strokeColor} strokeWidth={strokeWidth} strokeLinecap="round" />
-          </svg>
-        );
-      case 10: // Crying face
-        return (
-          <svg viewBox="0 0 100 100" className="w-16 h-16 md:w-20 md:h-20">
-            <circle cx="50" cy="50" r="45" fill="none" stroke={strokeColor} strokeWidth={strokeWidth} />
-            {/* Worried eyebrows */}
-            <path d="M 27 28 L 43 33" fill="none" stroke={strokeColor} strokeWidth={strokeWidth} strokeLinecap="round" />
-            <path d="M 73 28 L 57 33" fill="none" stroke={strokeColor} strokeWidth={strokeWidth} strokeLinecap="round" />
-            <circle cx="35" cy="40" r="8" fill="none" stroke={strokeColor} strokeWidth={strokeWidth} />
-            <circle cx="65" cy="40" r="8" fill="none" stroke={strokeColor} strokeWidth={strokeWidth} />
-            <circle cx="35" cy="40" r="3" fill={strokeColor} />
-            <circle cx="65" cy="40" r="3" fill={strokeColor} />
-            {/* Tears */}
-            <ellipse cx="25" cy="55" rx="4" ry="8" fill="#60a5fa" />
-            <ellipse cx="75" cy="55" rx="4" ry="8" fill="#60a5fa" />
-            {/* Open crying mouth */}
-            <ellipse cx="50" cy="70" rx="12" ry="8" fill="none" stroke={strokeColor} strokeWidth={strokeWidth} />
-          </svg>
-        );
-      default:
-        return null;
-    }
-  };
-  
-  return (
-    <button
-      onClick={onClick}
-      className={`flex flex-col items-center p-3 rounded-lg border-2 transition-all ${
-        selected 
-          ? 'border-primary bg-primary/10 scale-105 shadow-md' 
-          : 'border-gray-200 hover:border-primary/50 hover:bg-muted/50'
-      }`}
-    >
-      {renderFace(score)}
-      <span className="text-xl font-bold mt-2">{score}</span>
-      <span className="text-xs text-muted-foreground text-center leading-tight mt-1">{labels[score]}</span>
-    </button>
-  );
+// Wong-Baker FACES score labels
+const wongBakerLabels: Record<number, string> = {
+  0: 'No Hurt',
+  2: 'Hurts Little Bit',
+  4: 'Hurts Little More',
+  6: 'Hurts Even More',
+  8: 'Hurts Whole Lot',
+  10: 'Hurts Worst',
 };
 
 function getPainLevelStyle(level: PainLevel): { bg: string; text: string; border: string } {
@@ -695,23 +585,43 @@ export default function QuickAssessment() {
               <CardDescription>{scaleInfo.fullName}</CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
-              {/* Wong-Baker FACES special rendering with original validated faces */}
+              {/* Wong-Baker FACES special rendering with original validated faces image */}
               {selectedScale === 'wong_baker' ? (
                 <div className="space-y-4">
                   <div className="bg-muted/50 p-6 rounded-xl">
                     <p className="text-base font-medium mb-6 text-center">
                       "Point to the face that shows how much you hurt right now."
                     </p>
-                    <div className="flex flex-wrap justify-center gap-3 md:gap-4">
+                    
+                    {/* Original Wong-Baker FACES image */}
+                    <div className="flex justify-center mb-6">
+                      <img 
+                        src="/wong-baker-faces-original.webp" 
+                        alt="Wong-Baker FACES Pain Rating Scale" 
+                        className="max-w-full h-auto"
+                      />
+                    </div>
+                    
+                    {/* Clickable score buttons */}
+                    <div className="flex flex-wrap justify-center gap-2 md:gap-4">
                       {[0, 2, 4, 6, 8, 10].map((score) => (
-                        <WongBakerFace
+                        <button
                           key={score}
-                          score={score}
-                          selected={scoreData['pain_face'] === score}
                           onClick={() => handleScoreChange('pain_face', score)}
-                        />
+                          className={`flex flex-col items-center p-3 md:p-4 rounded-lg border-2 transition-all min-w-[70px] md:min-w-[90px] ${
+                            scoreData['pain_face'] === score
+                              ? 'border-primary bg-primary/10 scale-105 shadow-md'
+                              : 'border-gray-200 hover:border-primary/50 hover:bg-muted/50'
+                          }`}
+                        >
+                          <span className="text-2xl md:text-3xl font-bold">{score}</span>
+                          <span className="text-xs text-muted-foreground text-center leading-tight mt-1">
+                            {wongBakerLabels[score]}
+                          </span>
+                        </button>
                       ))}
                     </div>
+                    
                     <p className="text-xs text-center text-muted-foreground mt-4">
                       Wong-Baker FACES® Pain Rating Scale - © 1983 Wong-Baker FACES Foundation. Used with permission.
                     </p>
