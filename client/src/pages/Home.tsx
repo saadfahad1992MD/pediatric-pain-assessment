@@ -35,12 +35,9 @@ export default function Home() {
               <p className="text-xs text-muted-foreground hidden xs:block">All-in-One</p>
             </div>
           </div>
-          <nav className="flex items-center gap-1 sm:gap-4 shrink-0">
-            <Link href="/assessment/new">
-              <Button variant="ghost" size="sm" className="text-xs sm:text-sm px-2 sm:px-4">New Assessment</Button>
-            </Link>
+          <nav className="flex items-center shrink-0">
             <Link href="/resources">
-              <Button variant="ghost" size="sm" className="text-xs sm:text-sm px-2 sm:px-4">Resources</Button>
+              <Button variant="ghost" size="sm" className="text-sm px-3 sm:px-4">Resources</Button>
             </Link>
           </nav>
         </div>

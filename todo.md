@@ -165,3 +165,8 @@
 ## Bug Fix - Home Page Mobile Header
 
 - [x] Fix Resources text being cut off on mobile in Home page header
+
+
+## UI Change - Home Page Header Simplification
+
+- [x] Remove New Assessment button from Home page header (already available in hero section)
