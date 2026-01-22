@@ -260,3 +260,5 @@
 - [ ] Center the logo text (PediPain360, All-in-One, Hub) in header and footer
 - [x] Center the word "Hub" in the logo text
 - [x] Align "Hub" with the word "One" in "All-in-One" (right-aligned under "One")
+- [x] Align "Hub" directly below "in" in "All-in-One"
+- [x] Combine QR and Share into one button
