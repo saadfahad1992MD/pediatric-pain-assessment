@@ -228,3 +228,22 @@
 - [x] Generate favicon in multiple sizes (16x16, 32x32, 180x180 for Apple touch)
 - [x] Add favicon files to public folder
 - [x] Update HTML to reference the favicon
+
+
+## Remove Custom Favicon
+
+- [x] Remove custom favicon files from public folder
+- [x] Remove favicon references from index.html
+
+
+## PWA Manifest
+
+- [x] Create manifest.json with app name, icons, and theme colors
+- [x] Add manifest link to index.html
+- [x] Enable Add to Home Screen functionality
+
+
+## QR Code and Share Buttons
+
+- [x] Add QR code button to generate shareable QR code of current page
+- [x] Add share button using Web Share API with fallback
