@@ -178,3 +178,9 @@
 
 - [x] Remove New Assessment from Resources page header (same as Home page)
 - [x] Fix mobile layout to show full PediPain360 and All-in-One
+
+
+## Wong-Baker FACES UI Improvements
+
+- [x] Change buttons to single row of 6 aligned with faces (0, 2, 4, 6, 8, 10)
+- [x] Add pinch-to-zoom functionality to the Wong-Baker FACES image

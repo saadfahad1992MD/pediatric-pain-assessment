@@ -786,34 +786,35 @@ export default function QuickAssessment() {
               {/* Wong-Baker FACES special rendering with original validated faces image */}
               {selectedScale === 'wong_baker' ? (
                 <div className="space-y-4">
-                  <div className="bg-muted/50 p-6 rounded-xl">
-                    <p className="text-base font-medium mb-6 text-center">
+                  <div className="bg-muted/50 p-4 sm:p-6 rounded-xl">
+                    <p className="text-base font-medium mb-4 text-center">
                       "Point to the face that shows how much you hurt right now."
                     </p>
                     
-                    {/* Original Wong-Baker FACES image */}
-                    <div className="flex justify-center mb-6">
+                    {/* Original Wong-Baker FACES image with pinch-to-zoom */}
+                    <div className="flex justify-center mb-2 overflow-hidden touch-manipulation">
                       <img 
                         src="/wong-baker-faces-original.webp" 
                         alt="Wong-Baker FACES Pain Rating Scale" 
-                        className="max-w-full h-auto"
+                        className="max-w-full h-auto cursor-zoom-in"
+                        style={{ touchAction: 'pinch-zoom' }}
                       />
                     </div>
                     
-                    {/* Clickable score buttons */}
-                    <div className="flex flex-wrap justify-center gap-2 md:gap-4">
+                    {/* Single row of 6 aligned score buttons */}
+                    <div className="grid grid-cols-6 gap-1 sm:gap-2 max-w-full">
                       {[0, 2, 4, 6, 8, 10].map((score) => (
                         <button
                           key={score}
                           onClick={() => handleScoreChange('pain_face', score)}
-                          className={`flex flex-col items-center p-3 md:p-4 rounded-lg border-2 transition-all min-w-[70px] md:min-w-[90px] ${
+                          className={`flex flex-col items-center p-1.5 sm:p-3 rounded-lg border-2 transition-all ${
                             scoreData['pain_face'] === score
                               ? 'border-primary bg-primary/10 scale-105 shadow-md'
                               : 'border-gray-200 hover:border-primary/50 hover:bg-muted/50'
                           }`}
                         >
-                          <span className="text-2xl md:text-3xl font-bold">{score}</span>
-                          <span className="text-xs text-muted-foreground text-center leading-tight mt-1">
+                          <span className="text-lg sm:text-2xl font-bold">{score}</span>
+                          <span className="text-[9px] sm:text-xs text-muted-foreground text-center leading-tight mt-0.5 sm:mt-1 line-clamp-2">
                             {wongBakerLabels[score]}
                           </span>
                         </button>
