@@ -215,3 +215,52 @@
 ## Intervention Tabs - Horizontal Scrollable on Mobile (Option 4)
 
 - [x] Change intervention tabs to horizontal scrollable layout on mobile for comparison
+
+
+## Intervention Tabs - Revert to Original Layout
+
+- [x] Revert intervention tabs to original horizontal layout (before Option 3/4)
+
+
+## Custom Favicon
+
+- [x] Design PediPain360-branded favicon (heart icon with pediatric theme)
+- [x] Generate favicon in multiple sizes (16x16, 32x32, 180x180 for Apple touch)
+- [x] Add favicon files to public folder
+- [x] Update HTML to reference the favicon
+
+
+## Remove Custom Favicon
+
+- [x] Remove custom favicon files from public folder
+- [x] Remove favicon references from index.html
+
+
+## PWA Manifest
+
+- [x] Create manifest.json with app name, icons, and theme colors
+- [x] Add manifest link to index.html
+- [x] Enable Add to Home Screen functionality
+
+
+## QR Code and Share Buttons
+
+- [x] Add QR code button to generate shareable QR code of current page
+- [x] Add share button using Web Share API with fallback
+
+
+## UI Adjustments
+
+- [x] Remove QR code and Share buttons from assessment page header
+- [x] Add QR code and Share buttons to home page only
+- [x] Add "Hub" text below "All-in-One" in top-left logo
+- [x] Add "Hub" text below "All-in-One" in footer logo
+
+- [x] Fix logo text: Put "Hub" on separate third line below "All-in-One"
+- [ ] Center the logo text (PediPain360, All-in-One, Hub) in header and footer
+- [x] Center the word "Hub" in the logo text
+- [x] Align "Hub" with the word "One" in "All-in-One" (right-aligned under "One")
+- [x] Align "Hub" directly below "in" in "All-in-One"
+- [x] Combine QR and Share into one button
+- [x] Add border to Resources button in header
+- [x] Update Share button to use QR code icon to hint at barcode functionality
