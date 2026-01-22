@@ -287,3 +287,8 @@
 ## Google Analytics Integration
 
 - [x] Add Google Analytics tracking code (G-R8CLMQ34PS) to website
+
+
+## UI Styling - View Full Resources Button
+
+- [x] Change View Full Resources button to green background with white text

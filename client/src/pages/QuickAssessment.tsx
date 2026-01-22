@@ -526,7 +526,7 @@ function GuidelinesContent({
           For comprehensive clinical guidelines, evidence sources, and educational materials:
         </p>
         <Link href="/resources">
-          <Button variant="outline" className="gap-2">
+          <Button variant="outline" className="gap-2 bg-green-600 text-white border-green-600 hover:bg-green-700 hover:border-green-700">
             <BookOpen className="w-4 h-4" />
             View Full Resources
             <ExternalLink className="w-3 h-3" />
