@@ -972,22 +972,20 @@ export default function QuickAssessment() {
               
               {/* Main Treatment Tabs */}
               <Tabs value={interventionTab} onValueChange={(v) => setInterventionTab(v as typeof interventionTab)}>
-                <div className="overflow-x-auto -mx-4 px-4 mb-4">
-                  <TabsList className="inline-flex w-auto min-w-full sm:grid sm:grid-cols-3 sm:w-full h-auto gap-1">
-                    <TabsTrigger value="guidelines" className="gap-2 px-4 py-2.5 text-sm whitespace-nowrap">
-                      <FileText className="w-4 h-4 shrink-0" />
-                      <span>Guidelines</span>
-                    </TabsTrigger>
-                    <TabsTrigger value="non_pharmacological" className="gap-2 px-4 py-2.5 text-sm whitespace-nowrap">
-                      <Hand className="w-4 h-4 shrink-0" />
-                      <span>Non-Pharmacological</span>
-                    </TabsTrigger>
-                    <TabsTrigger value="pharmacological" className="gap-2 px-4 py-2.5 text-sm whitespace-nowrap">
-                      <Pill className="w-4 h-4 shrink-0" />
-                      <span>Pharmacological</span>
-                    </TabsTrigger>
-                  </TabsList>
-                </div>
+                <TabsList className="grid w-full grid-cols-3 mb-4 h-auto">
+                  <TabsTrigger value="guidelines" className="gap-1 sm:gap-2 px-2 sm:px-3 py-2 text-xs sm:text-sm">
+                    <FileText className="w-3 h-3 sm:w-4 sm:h-4 shrink-0" />
+                    <span className="truncate">Guidelines</span>
+                  </TabsTrigger>
+                  <TabsTrigger value="non_pharmacological" className="gap-1 sm:gap-2 px-2 sm:px-3 py-2 text-xs sm:text-sm">
+                    <Hand className="w-3 h-3 sm:w-4 sm:h-4 shrink-0" />
+                    <span className="truncate">Non-Pharm</span>
+                  </TabsTrigger>
+                  <TabsTrigger value="pharmacological" className="gap-1 sm:gap-2 px-2 sm:px-3 py-2 text-xs sm:text-sm">
+                    <Pill className="w-3 h-3 sm:w-4 sm:h-4 shrink-0" />
+                    <span className="truncate">Pharma</span>
+                  </TabsTrigger>
+                </TabsList>
                 
                 {/* Guidelines Tab */}
                 <TabsContent value="guidelines">

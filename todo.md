@@ -215,3 +215,8 @@
 ## Intervention Tabs - Horizontal Scrollable on Mobile (Option 4)
 
 - [x] Change intervention tabs to horizontal scrollable layout on mobile for comparison
+
+
+## Intervention Tabs - Revert to Original Layout
+
+- [x] Revert intervention tabs to original horizontal layout (before Option 3/4)
