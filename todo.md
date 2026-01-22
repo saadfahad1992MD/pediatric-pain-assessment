@@ -247,3 +247,11 @@
 
 - [x] Add QR code button to generate shareable QR code of current page
 - [x] Add share button using Web Share API with fallback
+
+
+## UI Adjustments
+
+- [x] Remove QR code and Share buttons from assessment page header
+- [x] Add QR code and Share buttons to home page only
+- [x] Add "Hub" text below "All-in-One" in top-left logo
+- [x] Add "Hub" text below "All-in-One" in footer logo

@@ -8,11 +8,47 @@ import {
   AlertTriangle,
   Layers,
   Pill,
-  Zap
+  Zap,
+  Share2,
+  QrCode,
+  X
 } from "lucide-react";
+import { useState } from "react";
+import { QRCodeSVG } from "qrcode.react";
 import { Link } from "wouter";
 
 export default function Home() {
+  const [showQRCode, setShowQRCode] = useState(false);
+
+  // Handle share
+  const handleShare = async () => {
+    const shareData = {
+      title: 'PediPain360 - Pediatric Pain Assessment',
+      text: 'All-in-One Pediatric Pain Assessment and Management Hub for healthcare providers',
+      url: window.location.origin,
+    };
+    
+    if (navigator.share && navigator.canShare(shareData)) {
+      try {
+        await navigator.share(shareData);
+      } catch (err) {
+        // User cancelled or error - fallback to copy
+        copyToClipboard();
+      }
+    } else {
+      copyToClipboard();
+    }
+  };
+
+  // Copy URL to clipboard
+  const copyToClipboard = () => {
+    navigator.clipboard.writeText(window.location.origin).then(() => {
+      alert('Link copied to clipboard!');
+    }).catch(() => {
+      alert('Failed to copy link');
+    });
+  };
+
   return (
     <div className="min-h-screen flex flex-col bg-background">
       {/* Disclaimer Banner */}
@@ -32,10 +68,18 @@ export default function Home() {
             </div>
             <div className="min-w-0">
               <h1 className="font-semibold text-base sm:text-lg text-foreground truncate">PediPain360</h1>
-              <p className="text-xs text-muted-foreground">All-in-One</p>
+              <p className="text-xs text-muted-foreground">All-in-One Hub</p>
             </div>
           </div>
-          <nav className="flex items-center shrink-0">
+          <nav className="flex items-center gap-1 sm:gap-2 shrink-0">
+            <Button variant="outline" size="sm" onClick={() => setShowQRCode(true)} className="gap-1 px-2 sm:px-3">
+              <QrCode className="w-4 h-4" />
+              <span className="hidden sm:inline">QR</span>
+            </Button>
+            <Button variant="outline" size="sm" onClick={handleShare} className="gap-1 px-2 sm:px-3">
+              <Share2 className="w-4 h-4" />
+              <span className="hidden sm:inline">Share</span>
+            </Button>
             <Link href="/resources">
               <Button variant="ghost" size="sm" className="text-sm px-3 sm:px-4">Resources</Button>
             </Link>
@@ -223,7 +267,7 @@ export default function Home() {
               </div>
               <div>
                 <p className="font-semibold text-foreground">PediPain360</p>
-                <p className="text-xs text-muted-foreground">All-in-One</p>
+                <p className="text-xs text-muted-foreground">All-in-One Hub</p>
               </div>
             </div>
             
@@ -255,6 +299,40 @@ export default function Home() {
           </div>
         </div>
       </footer>
+
+      {/* QR Code Modal */}
+      {showQRCode && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4" onClick={() => setShowQRCode(false)}>
+          <div className="bg-white rounded-lg p-6 max-w-sm w-full" onClick={(e) => e.stopPropagation()}>
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-lg font-semibold">Scan to Share</h3>
+              <Button variant="ghost" size="sm" onClick={() => setShowQRCode(false)}>
+                <X className="w-4 h-4" />
+              </Button>
+            </div>
+            <div className="flex justify-center p-4 bg-white rounded-lg">
+              <QRCodeSVG 
+                value={window.location.origin} 
+                size={200}
+                level="H"
+                includeMargin={true}
+              />
+            </div>
+            <p className="text-center text-sm text-muted-foreground mt-4">
+              Scan this QR code to open PediPain360 on another device
+            </p>
+            <div className="mt-4 flex gap-2">
+              <Button variant="outline" className="flex-1" onClick={copyToClipboard}>
+                Copy Link
+              </Button>
+              <Button className="flex-1" onClick={handleShare}>
+                <Share2 className="w-4 h-4 mr-2" />
+                Share
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
