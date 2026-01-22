@@ -200,3 +200,8 @@
 ## Wong-Baker FACES - Button Label Text Fix
 
 - [x] Fix button labels to show full text with wrapping and smaller font on mobile
+
+
+## Assessment Page Header - Replace Heart Logo
+
+- [x] Replace heart logo with Home button on assessment page header

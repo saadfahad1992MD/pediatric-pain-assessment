@@ -37,6 +37,7 @@ import {
 import { 
   Check, 
   Heart, 
+  Home,
   Info, 
   RotateCcw,
   Printer,
@@ -696,17 +697,9 @@ export default function QuickAssessment() {
             <div className="flex items-center gap-2 min-w-0">
               <Link href="/">
                 <Button variant="ghost" size="sm" className="gap-1 text-muted-foreground hover:text-foreground px-2">
-                  <ArrowLeft className="w-4 h-4" />
-                  <span className="hidden sm:inline">Home</span>
+                  <Home className="w-4 h-4" />
+                  <span className="sm:inline">Home</span>
                 </Button>
-              </Link>
-              <Link href="/">
-                <div className="flex items-center gap-2 cursor-pointer">
-                  <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
-                    <Heart className="w-4 h-4 sm:w-5 sm:h-5 text-primary" />
-                  </div>
-                  <span className="font-semibold text-base sm:text-lg hidden xs:inline">PediPain360</span>
-                </div>
               </Link>
             </div>
             {/* Right side - Action buttons */}
