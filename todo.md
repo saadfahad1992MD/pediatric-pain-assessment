@@ -282,3 +282,8 @@
 
 - [x] Create sitemap.xml with all website pages
 - [x] Create robots.txt to guide search engine crawlers
+
+
+## Google Analytics Integration
+
+- [x] Add Google Analytics tracking code (G-R8CLMQ34PS) to website
