@@ -818,19 +818,19 @@ export default function QuickAssessment() {
                     </div>
                     
                     {/* Single row of 6 aligned score buttons */}
-                    <div className="grid grid-cols-6 gap-1 sm:gap-2 max-w-full">
+                    <div className="grid grid-cols-6 gap-0.5 sm:gap-2 max-w-full">
                       {[0, 2, 4, 6, 8, 10].map((score) => (
                         <button
                           key={score}
                           onClick={() => handleScoreChange('pain_face', score)}
-                          className={`flex flex-col items-center p-1.5 sm:p-3 rounded-lg border-2 transition-all ${
+                          className={`flex flex-col items-center justify-start p-1 sm:p-3 rounded-lg border-2 transition-all min-h-[70px] sm:min-h-[90px] ${
                             scoreData['pain_face'] === score
                               ? 'border-primary bg-primary/10 scale-105 shadow-md'
                               : 'border-gray-200 hover:border-primary/50 hover:bg-muted/50'
                           }`}
                         >
-                          <span className="text-lg sm:text-2xl font-bold">{score}</span>
-                          <span className="text-[9px] sm:text-xs text-muted-foreground text-center leading-tight mt-0.5 sm:mt-1 line-clamp-2">
+                          <span className="text-base sm:text-2xl font-bold">{score}</span>
+                          <span className="text-[8px] sm:text-xs text-muted-foreground text-center leading-tight mt-0.5 sm:mt-1 whitespace-normal break-words hyphens-auto">
                             {wongBakerLabels[score]}
                           </span>
                         </button>

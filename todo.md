@@ -195,3 +195,8 @@
 ## Mobile Accessibility - Pinch-to-Zoom
 
 - [x] Enable pinch-to-zoom for the entire website on mobile devices
+
+
+## Wong-Baker FACES - Button Label Text Fix
+
+- [x] Fix button labels to show full text with wrapping and smaller font on mobile
