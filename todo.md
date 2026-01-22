@@ -276,3 +276,9 @@
 - [x] Add borders to Home and Resources buttons on assessment page header
 
 - [x] Add Google Search Console verification file to public folder
+
+
+## SEO - Sitemap and Robots
+
+- [x] Create sitemap.xml with all website pages
+- [x] Create robots.txt to guide search engine crawlers

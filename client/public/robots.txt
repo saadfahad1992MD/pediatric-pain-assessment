@@ -1,0 +1,8 @@
+# robots.txt for PediPain360
+# https://pedipain360.com
+
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://pedipain360.com/sitemap.xml
