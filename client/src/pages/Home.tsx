@@ -69,7 +69,7 @@ export default function Home() {
             <div className="min-w-0">
               <h1 className="font-semibold text-base sm:text-lg text-foreground truncate">PediPain360</h1>
               <p className="text-xs text-muted-foreground">All-in-One</p>
-              <p className="text-xs text-muted-foreground">Hub</p>
+              <p className="text-xs text-muted-foreground text-center">Hub</p>
             </div>
           </div>
           <nav className="flex items-center gap-1 sm:gap-2 shrink-0">
@@ -269,7 +269,7 @@ export default function Home() {
               <div>
                 <p className="font-semibold text-foreground">PediPain360</p>
                 <p className="text-xs text-muted-foreground">All-in-One</p>
-                <p className="text-xs text-muted-foreground">Hub</p>
+                <p className="text-xs text-muted-foreground text-center">Hub</p>
               </div>
             </div>
             

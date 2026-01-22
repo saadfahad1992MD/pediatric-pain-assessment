@@ -257,3 +257,5 @@
 - [x] Add "Hub" text below "All-in-One" in footer logo
 
 - [x] Fix logo text: Put "Hub" on separate third line below "All-in-One"
+- [ ] Center the logo text (PediPain360, All-in-One, Hub) in header and footer
+- [x] Center the word "Hub" in the logo text
