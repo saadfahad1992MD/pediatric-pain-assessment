@@ -190,3 +190,8 @@
 
 - [x] Fix pinch-to-zoom not working on mobile devices (replaced with clickable face areas)
 - [x] Add visual highlight overlay on faces when corresponding button is selected
+
+
+## Mobile Accessibility - Pinch-to-Zoom
+
+- [x] Enable pinch-to-zoom for the entire website on mobile devices
