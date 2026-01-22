@@ -184,3 +184,9 @@
 
 - [x] Change buttons to single row of 6 aligned with faces (0, 2, 4, 6, 8, 10)
 - [x] Add pinch-to-zoom functionality to the Wong-Baker FACES image
+
+
+## Wong-Baker FACES - Pinch-to-Zoom Fix and Face Highlight
+
+- [x] Fix pinch-to-zoom not working on mobile devices (replaced with clickable face areas)
+- [x] Add visual highlight overlay on faces when corresponding button is selected

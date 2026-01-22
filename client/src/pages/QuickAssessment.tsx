@@ -791,14 +791,30 @@ export default function QuickAssessment() {
                       "Point to the face that shows how much you hurt right now."
                     </p>
                     
-                    {/* Original Wong-Baker FACES image with pinch-to-zoom */}
-                    <div className="flex justify-center mb-2 overflow-hidden touch-manipulation">
-                      <img 
-                        src="/wong-baker-faces-original.webp" 
-                        alt="Wong-Baker FACES Pain Rating Scale" 
-                        className="max-w-full h-auto cursor-zoom-in"
-                        style={{ touchAction: 'pinch-zoom' }}
-                      />
+                    {/* Original Wong-Baker FACES image with clickable face areas and highlight */}
+                    <div className="relative flex justify-center mb-2">
+                      <div className="relative inline-block">
+                        <img 
+                          src="/wong-baker-faces-original.webp" 
+                          alt="Wong-Baker FACES Pain Rating Scale" 
+                          className="max-w-full h-auto"
+                        />
+                        {/* Clickable overlay areas for each face with highlight when selected */}
+                        <div className="absolute inset-0 grid grid-cols-6">
+                          {[0, 2, 4, 6, 8, 10].map((score, index) => (
+                            <button
+                              key={score}
+                              onClick={() => handleScoreChange('pain_face', score)}
+                              className={`h-full transition-all duration-200 ${
+                                scoreData['pain_face'] === score
+                                  ? 'bg-primary/30 ring-2 ring-primary ring-inset rounded-lg'
+                                  : 'hover:bg-primary/10'
+                              }`}
+                              aria-label={`Select pain level ${score}: ${wongBakerLabels[score]}`}
+                            />
+                          ))}
+                        </div>
+                      </div>
                     </div>
                     
                     {/* Single row of 6 aligned score buttons */}
