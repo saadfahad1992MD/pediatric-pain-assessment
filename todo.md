@@ -274,3 +274,5 @@
 - [x] Display website URL (pedipain360.com) at bottom of modal
 
 - [x] Add borders to Home and Resources buttons on assessment page header
+
+- [x] Add Google Search Console verification file to public folder
