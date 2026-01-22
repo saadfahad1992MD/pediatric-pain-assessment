@@ -272,3 +272,5 @@
 - [x] Add Twitter/X share button (blue)
 - [x] Add Copy Link button with icon
 - [x] Display website URL (pedipain360.com) at bottom of modal
+
+- [x] Add borders to Home and Resources buttons on assessment page header

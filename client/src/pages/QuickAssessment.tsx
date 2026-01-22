@@ -699,7 +699,7 @@ export default function QuickAssessment() {
             {/* Left side - Home button and logo */}
             <div className="flex items-center gap-2 min-w-0">
               <Link href="/">
-                <Button variant="ghost" size="sm" className="gap-1 text-muted-foreground hover:text-foreground px-2">
+                <Button variant="outline" size="sm" className="gap-1 text-muted-foreground hover:text-foreground px-2">
                   <Home className="w-4 h-4" />
                   <span className="sm:inline">Home</span>
                 </Button>
@@ -708,7 +708,7 @@ export default function QuickAssessment() {
             {/* Right side - Action buttons */}
             <div className="flex items-center gap-1 sm:gap-2 shrink-0">
               <Link href="/resources">
-                <Button variant="ghost" size="sm" className="px-2 sm:px-3 text-xs sm:text-sm">Resources</Button>
+                <Button variant="outline" size="sm" className="px-2 sm:px-3 text-xs sm:text-sm">Resources</Button>
               </Link>
               {isAssessmentComplete && (
                 <Button variant="outline" size="sm" onClick={handlePrint} className="gap-1 px-2 sm:px-3">
