@@ -210,3 +210,8 @@
 ## Intervention Tabs - Vertical Layout on Mobile
 
 - [x] Stack intervention tabs (Guidelines, Non-Pharm, Pharma) vertically on mobile
+
+
+## Intervention Tabs - Horizontal Scrollable on Mobile (Option 4)
+
+- [x] Change intervention tabs to horizontal scrollable layout on mobile for comparison
