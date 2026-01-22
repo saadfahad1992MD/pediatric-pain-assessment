@@ -10,7 +10,8 @@ import {
   Pill,
   Zap,
   Share2,
-  X
+  X,
+  QrCode
 } from "lucide-react";
 import { useState } from "react";
 import { QRCodeSVG } from "qrcode.react";
@@ -73,11 +74,11 @@ export default function Home() {
           </div>
           <nav className="flex items-center gap-1 sm:gap-2 shrink-0">
             <Button variant="outline" size="sm" onClick={() => setShowQRCode(true)} className="gap-1 px-2 sm:px-3">
-              <Share2 className="w-4 h-4" />
+              <QrCode className="w-4 h-4" />
               <span className="hidden sm:inline">Share</span>
             </Button>
             <Link href="/resources">
-              <Button variant="ghost" size="sm" className="text-sm px-3 sm:px-4">Resources</Button>
+              <Button variant="outline" size="sm" className="text-sm px-3 sm:px-4">Resources</Button>
             </Link>
           </nav>
         </div>

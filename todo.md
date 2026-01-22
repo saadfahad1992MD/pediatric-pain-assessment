@@ -262,3 +262,5 @@
 - [x] Align "Hub" with the word "One" in "All-in-One" (right-aligned under "One")
 - [x] Align "Hub" directly below "in" in "All-in-One"
 - [x] Combine QR and Share into one button
+- [x] Add border to Resources button in header
+- [x] Update Share button to use QR code icon to hint at barcode functionality
