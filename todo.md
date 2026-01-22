@@ -255,3 +255,5 @@
 - [x] Add QR code and Share buttons to home page only
 - [x] Add "Hub" text below "All-in-One" in top-left logo
 - [x] Add "Hub" text below "All-in-One" in footer logo
+
+- [x] Fix logo text: Put "Hub" on separate third line below "All-in-One"
