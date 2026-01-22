@@ -972,18 +972,18 @@ export default function QuickAssessment() {
               
               {/* Main Treatment Tabs */}
               <Tabs value={interventionTab} onValueChange={(v) => setInterventionTab(v as typeof interventionTab)}>
-                <TabsList className="grid w-full grid-cols-3 mb-4 h-auto">
-                  <TabsTrigger value="guidelines" className="gap-1 sm:gap-2 px-2 sm:px-3 py-2 text-xs sm:text-sm">
-                    <FileText className="w-3 h-3 sm:w-4 sm:h-4 shrink-0" />
-                    <span className="truncate">Guidelines</span>
+                <TabsList className="flex flex-col sm:flex-row sm:grid sm:grid-cols-3 w-full mb-4 h-auto gap-1 sm:gap-0">
+                  <TabsTrigger value="guidelines" className="gap-2 px-3 py-2.5 text-sm justify-start sm:justify-center w-full">
+                    <FileText className="w-4 h-4 shrink-0" />
+                    <span>Guidelines</span>
                   </TabsTrigger>
-                  <TabsTrigger value="non_pharmacological" className="gap-1 sm:gap-2 px-2 sm:px-3 py-2 text-xs sm:text-sm">
-                    <Hand className="w-3 h-3 sm:w-4 sm:h-4 shrink-0" />
-                    <span className="truncate">Non-Pharm</span>
+                  <TabsTrigger value="non_pharmacological" className="gap-2 px-3 py-2.5 text-sm justify-start sm:justify-center w-full">
+                    <Hand className="w-4 h-4 shrink-0" />
+                    <span>Non-Pharmacological</span>
                   </TabsTrigger>
-                  <TabsTrigger value="pharmacological" className="gap-1 sm:gap-2 px-2 sm:px-3 py-2 text-xs sm:text-sm">
-                    <Pill className="w-3 h-3 sm:w-4 sm:h-4 shrink-0" />
-                    <span className="truncate">Pharma</span>
+                  <TabsTrigger value="pharmacological" className="gap-2 px-3 py-2.5 text-sm justify-start sm:justify-center w-full">
+                    <Pill className="w-4 h-4 shrink-0" />
+                    <span>Pharmacological</span>
                   </TabsTrigger>
                 </TabsList>
                 

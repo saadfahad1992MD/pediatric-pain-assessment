@@ -205,3 +205,8 @@
 ## Assessment Page Header - Replace Heart Logo
 
 - [x] Replace heart logo with Home button on assessment page header
+
+
+## Intervention Tabs - Vertical Layout on Mobile
+
+- [x] Stack intervention tabs (Guidelines, Non-Pharm, Pharma) vertically on mobile
